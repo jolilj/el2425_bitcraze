@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>el2425_bitcraze</name>
+  <version>0.0.0</version>
+  <description>The el2425_bitcraze package</description>
+  <maintainer email="jolilj@kth.se">Joakim Lilja</maintainer>
+  <maintainer email="carhei@kth.se">Caroline Heidenreich</maintainer>
+  <maintainer email="imrkha@kth.se">Imran Khan</maintainer>
+  <maintainer email="rolun@kth.se">Robert Lundberg</maintainer>
+  <maintainer email="sabernykth.se">Saber Najafi Yaldouri</maintainer>
+  <maintainer email="pedramfk@kth.se">Pedram Fathollahzadeh Kafshi</maintainer>
+  <maintainer email="pangh@kth.se">Pang Hui</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://TODO</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+</package>
