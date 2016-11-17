@@ -1,8 +1,7 @@
 n_anchors: 6 
-anchor0_pos: [   1.66,    1.84, 2.40]
-anchor1_pos: [     0,        0, 1.98]
-anchor2_pos: [   0.93,   -3.46, 0.36]
-anchor3_pos: [  -1.96,    3.07, 1.31]
-anchor4_pos: [  -2.05,   -2.44, 1.00]
-anchor5_pos: [   2.70,   -1.38, 0.84]
-
+anchor0_pos: [     0,        0, 2.02] # Anchor address 1
+anchor1_pos: [   0.98,   -3.31, 0.57] # Anchor address 2
+anchor2_pos: [  -1.83,    3.05, 1.70] # Anchor address 3
+anchor3_pos: [  -2.05,   -2.44, 1.28] # Anchor address 4
+anchor4_pos: [   2.70,   -1.46, 1.00] # Anchor address 5
+anchor5_pos: [   1.73,    1.77, 2.45] # Anchor address 6
