@@ -1,0 +1,146 @@
+\chapter*{Week 47}
+
+
+
+
+
+\section*{Week Goals}
+
+This week, our main goal is to get one \CF{} to hover.
+The project plan features two subgoals:
+\begin{itemize}
+  \item implement \ROS{} code to move up the drone;
+  \item tune the \PID{} controller.
+\end{itemize}
+This is the first week that contains goals that I have not already reproduced myself.
+Therefore, the guidelines will be more like suggestions than like instructions.
+Since \Bitcraze{} is releasing new code fast, nodes and topics may have changed name.
+Take these guidelines with a grain of salt.
+You are always welcome to contact me on anything unclear.
+
+
+
+
+
+
+
+\section*{Implement \ROS{} code to move up the drone}
+
+There is a \PID{} position controller to hover the \CF{} in the \lstinline|whoenig/crazyflie_ros| repository on  \Github{}.
+If you have not already downloaded this package, you can do it this week.
+Remember to build and source your catkin workspace afterwards.
+
+The \PID{} controller is in the \lstinline|crazyflie_controller| package.
+Before you run the controller, you should make sure that you have a reasonable estimate of the position of the \CF{} from the \LPS{}.
+Therefore, one of the position estimators from the \lstinline|lps_ros| package should be up and running (\EKF{}, \LMS{} or particle filter.).
+If you need instructions on how to launch the estimators, you can go back to the guidelines for week 46.
+
+You can run the \PID{} controller by typing the following command.
+
+\begin{code}
+  $ roslaunch crazyflie_controller crazyflie2.launch
+\end{code}
+
+When I was using this controller, I needed to call a service called \lstinline|takeoff| in order to fly the \CF{}.
+I believe that this is still the case, but just to avoid crashes, hold the \CF{} (from below) when you run the controller for the first time.
+
+Once the controller is running, but before you call the \lstinline|takeoff| service, you have the opportunity to \lstinline|echo| the commands issued by the controller.
+
+Print the current topics as usual.
+
+\begin{code}
+  $ rostopic list
+\end{code}
+
+One of the available topics should be \lstinline|/controller/cmd_vel|.
+This topic is of type \lstinline|geometry_msgs/Twist|.
+You can read the interface of this type \href{http://docs.ros.org/api/geometry_msgs/html/msg/Twist.html}{here}.
+Print the topic as follows.
+
+\begin{code}
+  $ rostopic echo /controller/cmd_vel
+\end{code}
+
+You can see that the topic has two fields: \lstinline|linear| and \lstinline|angular|, each of type \lstinline|geometry_msgs/Vector3|.
+The field \lstinline|linear| contains the requested roll (\lstinline|linear.x|), pitch (\lstinline|linear.y|) and thrust (\lstinline|linear.z|).
+The field \lstinline|angular| uses only the field \lstinline|angular.z|, which is the requested yaw rate (i.e., how fast the \CF{} should spin about its axis).
+
+Roll and pitch are expressed in degrees. You should check that both lie within the interval $[-10,10]$.
+I do not remember the measure unit used for the thrust, but it should lie within $[1.0,6.0]\cdot 10^4$.
+The unit for the yaw rate is degrees per second. It should lie within $[-1.0,1.0]\cdot 10^2$.
+
+Make sure that the controller listens to the position of the \CF{} as published by the position estimator of your choice.
+You can check the subscriptions by typing the following.
+
+\begin{code}
+  $ rostopic echo /crazyflie/position
+\end{code}
+
+Now you should be ready to takeoff.
+I see that you have already uploaded a script to call the \lstinline|takeoff| service: awesome!
+You can also just type the following.
+
+\begin{code}
+  $ rosservice call /crazyflie/takeoff
+\end{code}
+
+
+
+Have fun!
+
+
+
+
+
+
+
+
+
+
+\section*{Tune the \PID{} controller}
+
+All the \PID{} parameters are collected in a \lstinline|.yaml| file called \lstinline|crazyflie2.yaml|.
+This type of file is used to specify \ROS{} parameters that are too large or too many to fit in the command line.
+You can find this file in \lstinline|crazyflie_controller/config|. \href{https://github.com/whoenig/crazyflie_ros/tree/master/crazyflie_controller/config}{This is the link to the original file on \Github{}.}
+If you are not satisfied with the performance, you can try messing around with this file.
+However, I think that you can achieve better improvements by changing the position of the \LPN{}s.
+Another possibility would be to tune the position estimator.
+However, this would probably be more delicate, since (at least as far as I can see) there is not a dedicated \lstinline|.yaml| file.
+
+
+
+
+
+
+
+
+
+
+\section*{Keep the \Github{} repository updated}
+
+Please write down all the (successful) command sequences that you use in the \lstinline|README.md| file of our repository.
+This will be useful to reproduce your results in case you forget the specific steps.
+
+
+
+
+
+
+\section*{Meet Erik}
+
+Erik Stro\"omberg is doing his MSc thesis on the \CF{} at \Ericsson{}.
+He may visiting the \SML{} next week at someÓ point.
+If he comes, it would be great that as many of us as possible have a chat with him.
+I will keep you updated on this.
+
+
+
+
+
+
+\section*{Weekly Meeting}
+
+I would like to meet you on \deadline{Thursday, Nov 24th, 16:00}.
+I can come down the \SML{}.
+I think that the project is going very well, and we are on track.
+Thank you for your awesome work!

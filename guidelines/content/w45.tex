@@ -38,7 +38,7 @@ Let's now go through each of the goals.
 
 I would recommend that you go through the \href{http://wiki.ros.org/ROS/Tutorials#Beginner_Level}{beginner tutorials}; we can leave out the intermediate tutorials for now.
 You can start off from where you stopped at the \ROS{} tutorial session that we had on Nov 4th.
-From now on, I will assume that you have installed \ROS{} and created a catkin workspace named \verb|catkin_ws| in your home folder.
+From now on, I will assume that you have installed \ROS{} and created a catkin workspace named \lstinline|catkin_ws| in your home folder.
 
 
 
@@ -109,93 +109,93 @@ The simplest way to communicate with the \CF{}s would be to use the \texttt{Bitc
 However, since we want to design a path planner \ROS{} node for the \CF{}s (and not just fly them with a joystick) we actually need to learn to connect to them through \ROS{}.
 
 If you don't have them yet, download the \ROS{} libraries for the \CF{}s:
-go to \href{}{Wolfgang Hoenig's repository}, and clone it in your \verb|catkin_ws/src| folder.
+go to \href{}{Wolfgang Hoenig's repository}, and clone it in your \lstinline|catkin_ws/src| folder.
 You can do it from the command line, by typing the following lines.
-Remember: the dollar sign \verb|$| marks the beginning of a command, you do not type it yourself.
+Remember: the dollar sign \lstinline|$| marks the beginning of a command, you do not type it yourself.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/whoenig/crazyflie_ros.git
 
-\end{Verbatim}
+\end{code}
 
 Now you need to compile and source your catkin workspace.
 ``Compile and source'' means that you compile the code that you have just downloaded and inform \ROS{} that the compiled files are there, ready to be used.
 You can do it as follows.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 
 $ cd ~/catkin_ws
 $ catkin_make
 $ source ./devel/setup.bash
 
-\end{Verbatim}
+\end{code}
 
-Now you need to set permission for non-root users to access the USB ports, otherwise \ROS{} will not have access to the \texttt{Crazyradio PA}.
+Now you need to set permission for non-root users to access the USB ports, otherwise \ROS{} will not have access to the \CRPA{}.
 Here are the \href{https://github.com/bitcraze/crazyflie-lib-python#linux}{instructions for setting USB permissions}.
 
-Now plug the \texttt{Crazyradio PA} in an USB port, and turn on a \CF{}.
+Now plug the \CRPA{} in an USB port, and turn on a \CF{}.
 Then type the following.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 
 $ rosrun crazyflie_tools scan
 
-\end{Verbatim}
+\end{code}
 
 If everything goes well, this will print the radio address of the \CF{}.
 You can expect something like that
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 
 Configured Dongle with version 0.53
 radio://0/80/250K
 
-\end{Verbatim}
+\end{code}
 
 To connect to the \CF{}, you can type the following.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 
 $ roslaunch crazyflie_driver crazyflie_server.launch
 
-\end{Verbatim}
+\end{code}
 
 Then, open another terminal and type
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 
 $ roslaunch crazyflie_driver crazyflie_add.launch uri:=radio://x/xx/xxx
 
-\end{Verbatim}
+\end{code}
 
-where \verb|x/xx/xxx| must be replaced with the address that you received from \verb|rosrun crazyflie_tools scan|.
+where \lstinline|x/xx/xxx| must be replaced with the address that you received from \lstinline|rosrun crazyflie_tools scan|.
 
 
 You should now be connected to the \CF{}.
 You can check if you are connected by printing the active \ROS{} nodes.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ rosnode list
-\end{Verbatim}
+\end{code}
 
 You should see something like this.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 /crazyflie_server
 /rosout
-\end{Verbatim}
+\end{code}
 
 You can also check the \ROS{} topics that these nodes are using.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ rostopic list
-\end{Verbatim}
+\end{code}
 
 You should see something like this.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 /battery
 /cmd_vel
 /imu
@@ -205,17 +205,17 @@ You should see something like this.
 /rosout_agg
 /rssi
 /temperature
-\end{Verbatim}
+\end{code}
 
 You can also print the content of these topics to screen.
 For example, you can type the following.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ rostopic echo /battery
-\end{Verbatim}
+\end{code}
 
 Now we can make the propellers spin.
-To do this, you have to publish a message on the topic \verb|/cmd_vel|, which is a command to the pilot of the \CF{}.
+To do this, you have to publish a message on the topic \lstinline|/cmd_vel|, which is a command to the pilot of the \CF{}.
 You only need to set the \texttt{linear.z} attribute of the message, and you can leave the other to zero.
 I suggest you set it to something between \texttt{10000} and \texttt{15000}, which will start the propellers without making the \CF{} take off.
 However, this may vary with the \CF{} or with the battery level, so it's better if you hold the \CF{} in your hands.
@@ -224,7 +224,7 @@ Hold the \CF{} from below, so that your fingers are away from the propellers, an
 You can publish from the command line with the command \texttt{rospub}.
 Here is an example.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ rostopic pub /cmd_vel geometry_msgs/Twist "linear:
         x: 0.0
         y: 0.0
@@ -233,9 +233,9 @@ angular:
         x: 0.0
         y: 0.0
         z: 0.0" -r 10
-\end{Verbatim}
+\end{code}
 
-You can stop the publishing (and hence the propeller spinning) by pressing \verb|Ctrl-C| in the terminal.
+You can stop the publishing (and hence the propeller spinning) by pressing \lstinline|Ctrl-C| in the terminal.
 
 An alternative is to use \href{http://wiki.ros.org/rqt_publisher}{the \texttt{Message Publisher} tool from \texttt{rqt}}.
 
@@ -252,33 +252,33 @@ Let's try that out.
 Download the \ROS{} library for the \LPN{}s.
 You can do it by command line as follows.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/bitcraze/lps-ros
-\end{Verbatim}
+\end{code}
 
 Now you need to compile and source your workspace again
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ cd ~/catkin_ws
 $ catkin_make
 $ source ./devel/setup.bash
-\end{Verbatim}
+\end{code}
 
-Make sure that the \texttt{Crazyradio PA} is still plugged in, and turn on the \CF{}.
+Make sure that the \CRPA{} is still plugged in, and turn on the \CF{}.
 Connect at least one \LPN{} to a power supply; connecting it to the power supply will automatically turn it on.
 Then, launch the position estimator as follows
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ roslaunch bitcraze_lps_estimator dwm_loc.launch uri:=radio/x/xx/xxx
-\end{Verbatim}
+\end{code}
 
-where again \verb|x/xx/xxx| is the address of your \CF{}.
+where again \lstinline|x/xx/xxx| is the address of your \CF{}.
 Now type the following.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ rostopic echo /crazyflie/log_ranges
-\end{Verbatim}
+\end{code}
 
 Do you get the range measurements?
 
@@ -290,25 +290,25 @@ Do you get the range measurements?
 You probably already have created a \texttt{catkin} package for the project; if not, you can follow these steps.
 I think that the best way would be that you only do this on one computer; then everybody clones the package with \texttt{git}.
 
-\begin{Verbatim}[fontsize=\small]
+\begin{code}
 $ cd ~/catkin_ws/src
 $ catkin_create_pkg el2425-bitcraze-group std_msgs geometry_msgs rospy
-\end{Verbatim}
+\end{code}
 
 Of course \texttt{el2425-bitcraze-group} is only an example name;
 you can choose the name that you like best.
 The other names in the command are the dependencies of the package.
-For now we can put only \verb|std_msgs|, \verb|geometry_msgs|, and \verb|rospy|;
+For now we can put only \lstinline|std_msgs|, \lstinline|geometry_msgs|, and \lstinline|rospy|;
 we can add more later if needed.
 
 I suggest that you have the following structure in your folder:
 
 \begin{itemize}
-  \item \verb|msg| - a subfolder with \ROS{} messages; they are text files with \verb|.msg| extension;
-  \item \verb|srv| - a subfolder with \ROS{} services; they are text files with \verb|.srv| extension;
-  \item \verb|launch| - a subfolder with \ROS{} launchfiles; they are text files with \verb|.xml| extension;
-  \item \verb|scripts| - a subfolder with the code implementing \ROS{} nodes; for example, they can be text files \verb|.py| or \verb|.cpp| extension;
-  \item \verb|src| - a subfolder with all the other code.
+  \item \lstinline|msg| - a subfolder with \ROS{} messages; they are text files with \lstinline|.msg| extension;
+  \item \lstinline|srv| - a subfolder with \ROS{} services; they are text files with \lstinline|.srv| extension;
+  \item \lstinline|launch| - a subfolder with \ROS{} launchfiles; they are text files with \lstinline|.xml| extension;
+  \item \lstinline|scripts| - a subfolder with the code implementing \ROS{} nodes; for example, they can be text files \lstinline|.py| or \lstinline|.cpp| extension;
+  \item \lstinline|src| - a subfolder with all the other code.
 \end{itemize}
 
 
