@@ -1,0 +1,338 @@
+\chapter*{Week 45}
+
+
+
+
+
+
+
+
+\section*{Week Goals}
+
+Starting from this week, we can follow the project plan that you have designed.
+In these instruction sheets, I will provide you some guidlines, resources and technical details on how to achieve the weekly goals.
+This week, the project plan features four main goals:
+\begin{itemize}
+\item go through the \ROS{} tutorials;
+\item assemble the remaining hardware;
+\item connect to the \CF{}s;
+\item set up a \texttt{github} repository.
+\end{itemize}
+%I would like to add one:
+%\begin{itemize}
+%  \item update the firmware on the \CF{}s and on the \texttt{Loco Positioning node}s.
+%\end{itemize}
+%Updating the firmware is important to get the latest features and bug fixes from \texttt{Bitcraze}.
+%I will give you detailed instructions on how to do these updates.
+I took the liberty to add something extra that is closely related, so that you don't have to do it later.
+Let's now go through each of the goals.
+
+
+
+
+
+
+
+
+\section*{Go through the \ROS{} tutorials}
+
+I would recommend that you go through the \href{http://wiki.ros.org/ROS/Tutorials#Beginner_Level}{beginner tutorials}; we can leave out the intermediate tutorials for now.
+You can start off from where you stopped at the \ROS{} tutorial session that we had on Nov 4th.
+From now on, I will assume that you have installed \ROS{} and created a catkin workspace named \verb|catkin_ws| in your home folder.
+
+
+
+
+
+
+\section*{Assemble the remaining hardware}
+
+For the moment being, we can substitute the battery holder with a \texttt{Loco Positioning deck} on each of the \CF{}s.
+The \texttt{Loco Positioning deck} is considered an expansion deck; therefore, its mounting is covered in the \href{https://www.bitcraze.io/getting-started-with-expansion-decks/}{tutorial on expansion decks}.
+Changing the battery holder with the \texttt{Loco Positioning deck} only takes a few seconds.
+Just make sure that you mount it with the right orientation, as explained in the tutorial.
+
+The deck should turn on when you turn on the \CF{}, because it gets power directly from the pins.
+If you turn on the \CF{}, but the deck does not turn on, it is probably because we need to update the \CF{}'s firmware.
+Here you can find \href{https://github.com/bitcraze/crazyflie-firmware}{a guide to update the \CF{} firmware}.
+Note: updating the firmware of the \CF{} may turn out to be a little hard, because you may need to install some dependency.
+If you get an error message, you best shot is to google it.
+Chances are that the issue has already been experienced, and there is a quick fix.
+If you get lost, call me up and I will also try to sort it out.
+
+After updating the firmware, the \texttt{Loco Positioning deck} should turn on and off together with the \CF{}.
+
+Soon enough, we will need to also update the firmware on the six \texttt{Loco Positioning node}s.
+I think that it would be best to get started with that already now.
+Here you can find \href{https://github.com/bitcraze/lps-node-firmware}{a guide to update the \texttt{Loco Positioning node} firmware}.
+
+The \texttt{Loco Positioning node}s have three different functioning modes: \emph{anchor}, \emph{tag} and \emph{sniffer}.
+After updating the firmware, we can set up our \texttt{Loco Positioning node} to behave as anchors.
+Here we have the \href{https://wiki.bitcraze.io/projects:lps:node#configuring_the_node}{instructions for setting the \texttt{Loco Positioning node}s as anchors}.
+
+Speaking of assembling hardware, later on we will need to find a way to position the six \texttt{Loco Positioning nodes} in the project room in such a way that they do not move.
+To do this, we can use rubber bands (quick and dirty) or get some wall mounts (takes more time, but more stable and elegant).
+It should be relatively easy to get us some wall mounts.
+Let's discuss this on our meeting, Monday Nov 7th.
+
+
+
+
+
+
+
+
+
+\section*{Safety}
+
+In the next part, we are going to make the propellers spin.
+Therefore, it is probably a good time to talk some safety.
+We already discussed something on our first group meeting, but it's good to remind ourselves.
+Please, watch out whenever a \CF{} is turned on.
+Compared to other drones (even those for recreatinal use) the \CF{} is relatively safe, due to the small size.
+Still, if you touch it while the propellers are spinning, you may get a small cut.
+More importantly, you never want a \CF{}s to get anywhere near you eyes.
+Keep your eyes away from the \CF{}s.
+% And, just to be sure, keep your eyes away from the \CF{}s.
+% Did I tell you to keep your eyes away from the \CF{}s?
+% Good, because it's important to keep your eyes away from the \CF{}s.
+
+
+
+
+
+
+
+\section*{Connect to the \CF{}s}
+
+The simplest way to communicate with the \CF{}s would be to use the \texttt{Bitcraze} virtual machine.
+However, since we want to design a path planner \ROS{} node for the \CF{}s (and not just fly them with a joystick) we actually need to learn to connect to them through \ROS{}.
+
+If you don't have them yet, download the \ROS{} libraries for the \CF{}s:
+go to \href{}{Wolfgang Hoenig's repository}, and clone it in your \verb|catkin_ws/src| folder.
+You can do it from the command line, by typing the following lines.
+Remember: the dollar sign \verb|$| marks the beginning of a command, you do not type it yourself.
+
+\begin{Verbatim}[fontsize=\small]
+
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/whoenig/crazyflie_ros.git
+
+\end{Verbatim}
+
+Now you need to compile and source your catkin workspace.
+``Compile and source'' means that you compile the code that you have just downloaded and inform \ROS{} that the compiled files are there, ready to be used.
+You can do it as follows.
+
+\begin{Verbatim}[fontsize=\small]
+
+$ cd ~/catkin_ws
+$ catkin_make
+$ source ./devel/setup.bash
+
+\end{Verbatim}
+
+Now you need to set permission for non-root users to access the USB ports, otherwise \ROS{} will not have access to the \texttt{Crazyradio PA}.
+Here are the \href{https://github.com/bitcraze/crazyflie-lib-python#linux}{instructions for setting USB permissions}.
+
+Now plug the \texttt{Crazyradio PA} in an USB port, and turn on a \CF{}.
+Then type the following.
+
+\begin{Verbatim}[fontsize=\small]
+
+$ rosrun crazyflie_tools scan
+
+\end{Verbatim}
+
+If everything goes well, this will print the radio address of the \CF{}.
+You can expect something like that
+
+\begin{Verbatim}[fontsize=\small]
+
+Configured Dongle with version 0.53
+radio://0/80/250K
+
+\end{Verbatim}
+
+To connect to the \CF{}, you can type the following.
+
+\begin{Verbatim}[fontsize=\small]
+
+$ roslaunch crazyflie_driver crazyflie_server.launch
+
+\end{Verbatim}
+
+Then, open another terminal and type
+
+\begin{Verbatim}[fontsize=\small]
+
+$ roslaunch crazyflie_driver crazyflie_add.launch uri:=radio://x/xx/xxx
+
+\end{Verbatim}
+
+where \verb|x/xx/xxx| must be replaced with the address that you received from \verb|rosrun crazyflie_tools scan|.
+
+
+You should now be connected to the \CF{}.
+You can check if you are connected by printing the active \ROS{} nodes.
+
+\begin{Verbatim}[fontsize=\small]
+$ rosnode list
+\end{Verbatim}
+
+You should see something like this.
+
+\begin{Verbatim}[fontsize=\small]
+/crazyflie_server
+/rosout
+\end{Verbatim}
+
+You can also check the \ROS{} topics that these nodes are using.
+
+\begin{Verbatim}[fontsize=\small]
+$ rostopic list
+\end{Verbatim}
+
+You should see something like this.
+
+\begin{Verbatim}[fontsize=\small]
+/battery
+/cmd_vel
+/imu
+/magnetic_field
+/pressure
+/rosout
+/rosout_agg
+/rssi
+/temperature
+\end{Verbatim}
+
+You can also print the content of these topics to screen.
+For example, you can type the following.
+
+\begin{Verbatim}[fontsize=\small]
+$ rostopic echo /battery
+\end{Verbatim}
+
+Now we can make the propellers spin.
+To do this, you have to publish a message on the topic \verb|/cmd_vel|, which is a command to the pilot of the \CF{}.
+You only need to set the \texttt{linear.z} attribute of the message, and you can leave the other to zero.
+I suggest you set it to something between \texttt{10000} and \texttt{15000}, which will start the propellers without making the \CF{} take off.
+However, this may vary with the \CF{} or with the battery level, so it's better if you hold the \CF{} in your hands.
+Hold the \CF{} from below, so that your fingers are away from the propellers, and keep it far from your eyes.
+
+You can publish from the command line with the command \texttt{rospub}.
+Here is an example.
+
+\begin{Verbatim}[fontsize=\small]
+$ rostopic pub /cmd_vel geometry_msgs/Twist "linear:
+        x: 0.0
+        y: 0.0
+        z: 13000
+angular:
+        x: 0.0
+        y: 0.0
+        z: 0.0" -r 10
+\end{Verbatim}
+
+You can stop the publishing (and hence the propeller spinning) by pressing \verb|Ctrl-C| in the terminal.
+
+An alternative is to use \href{http://wiki.ros.org/rqt_publisher}{the \texttt{Message Publisher} tool from \texttt{rqt}}.
+
+
+
+
+
+
+\section*{Connect to the \LPN{}s}
+
+At this point, you should also be able to set up a connection with the \LPN{}s, and printing range measurements (that is, the distance between the anchor and the \CF{}) on you sreen.
+Let's try that out.
+
+Download the \ROS{} library for the \LPN{}s.
+You can do it by command line as follows.
+
+\begin{Verbatim}[fontsize=\small]
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/bitcraze/lps-ros
+\end{Verbatim}
+
+Now you need to compile and source your workspace again
+
+\begin{Verbatim}[fontsize=\small]
+$ cd ~/catkin_ws
+$ catkin_make
+$ source ./devel/setup.bash
+\end{Verbatim}
+
+Make sure that the \texttt{Crazyradio PA} is still plugged in, and turn on the \CF{}.
+Connect at least one \LPN{} to a power supply; connecting it to the power supply will automatically turn it on.
+Then, launch the position estimator as follows
+
+\begin{Verbatim}[fontsize=\small]
+$ roslaunch bitcraze_lps_estimator dwm_loc.launch uri:=radio/x/xx/xxx
+\end{Verbatim}
+
+where again \verb|x/xx/xxx| is the address of your \CF{}.
+Now type the following.
+
+\begin{Verbatim}[fontsize=\small]
+$ rostopic echo /crazyflie/log_ranges
+\end{Verbatim}
+
+Do you get the range measurements?
+
+
+
+
+\section*{Create a project package}
+
+You probably already have created a \texttt{catkin} package for the project; if not, you can follow these steps.
+I think that the best way would be that you only do this on one computer; then everybody clones the package with \texttt{git}.
+
+\begin{Verbatim}[fontsize=\small]
+$ cd ~/catkin_ws/src
+$ catkin_create_pkg el2425-bitcraze-group std_msgs geometry_msgs rospy
+\end{Verbatim}
+
+Of course \texttt{el2425-bitcraze-group} is only an example name;
+you can choose the name that you like best.
+The other names in the command are the dependencies of the package.
+For now we can put only \verb|std_msgs|, \verb|geometry_msgs|, and \verb|rospy|;
+we can add more later if needed.
+
+I suggest that you have the following structure in your folder:
+
+\begin{itemize}
+  \item \verb|msg| - a subfolder with \ROS{} messages; they are text files with \verb|.msg| extension;
+  \item \verb|srv| - a subfolder with \ROS{} services; they are text files with \verb|.srv| extension;
+  \item \verb|launch| - a subfolder with \ROS{} launchfiles; they are text files with \verb|.xml| extension;
+  \item \verb|scripts| - a subfolder with the code implementing \ROS{} nodes; for example, they can be text files \verb|.py| or \verb|.cpp| extension;
+  \item \verb|src| - a subfolder with all the other code.
+\end{itemize}
+
+
+
+
+
+
+
+\section*{Setting up a \texttt{git} repository}
+
+If you need to familiarize with \texttt{git}, here you have a nice \href{https://try.github.io/levels/1/challenges/1}{\texttt{git} tutorial}.
+
+The git repository should coincide with the \texttt{catkin} package that you have created to host the project code.
+
+Once you have set up the repository on your computer, you have to upload it to some hosting server, such as \texttt{github} or \texttt{gitlab}.
+You can pick your favorite hosting server.
+
+Once you have uploaded the repository, please send me a link to join it as a contributor, so that I can follow along.
+
+
+
+
+\section*{Have fun}
+
+This week may be one of the most technical, especially because of the firmware update.
+I hope you still have a lot of fun.
+See you on \deadline{Monday, Nov 7th at 16:00} in the Automatic Control department.
