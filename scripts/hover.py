@@ -3,7 +3,8 @@
 import rospy
 from std_srvs.srv import Empty
 
-# Enable the takeoff service. This assumes the crazyflie position is accurately estimated by the LPS system. It might take a few seconds for the ekf to converge so wait before running this
+# Enable the takeoff service. This assumes the crazyflie position is accurately estimated by the LPS system. 
+# It might take a few seconds for the ekf to converge so wait before running this
 
 if __name__ == "__main__":
 	rospy.loginfo("waiting for takeoff service")
