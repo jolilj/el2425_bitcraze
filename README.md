@@ -16,14 +16,14 @@ cd ~/catkin_ws/src
 ```
 cp el2425_bitcraze/anchor_pos.yaml lps-ros/data/anchor_pos.yaml
 ```
-
-## Hardware notes
-
 ## Hovering
 In order to hover you need to update the crazyflie firmware config. This is done by creating a config.mk file and place it inside `crazyflie-firmware/tools/make`. The file is now in this repo and consists only of two lines. The reason is to enable the kalman filter onboard the crazyflie. See [bitcraze wiki](https://wiki.bitcraze.io/doc:lps:index) for more information.
+
 ### Step 1
-Assuming crazyflie channel is CH (Either **80** or **125** at the moment) and bitrate is RATE(**2M** at the moment) and goal position is x0, y0, z0
+Assuming crazyflie channel is CH (Either **80** or **125** at the moment) and bitrate is RATE(**2M** at the moment) and goal position is ``x0, y0, z0``
+
 ```roslaunch bitcraze_lps_estimator dwm_loc_ekf_hover.launch uri:=radio://0/CH/RATE x:=x0 y:=y0 z:=z0```
+
 ### Step 2
 Wait for a while for the filter to converge, then check the position(in another terminal tab)
 ```rostopic echo /crazyflie/crazyflie_position```
@@ -36,7 +36,7 @@ or run hover.py
 ### Step 4
 Stop hovering by stopping first script
 
-
+## Hardware notes
 ### Radio addresses
 To change the radio address of the Crazyflie, use the CFclient (easiest through the [virtual machine](https://www.bitcraze.io/getting-started-with-the-crazyflie-2-0/#inst-comp) to avoid installing a lot of dependencies). Instructions [here](https://wiki.bitcraze.io/doc:crazyflie:client:pycfclient:index#firmware_configuration). Go to firmware configuration section.
 
