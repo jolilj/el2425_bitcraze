@@ -19,4 +19,3 @@ The goal of this week is for the crazyflie to hover steadily. We've managed that
 *  Would it be better to get the crazyflie-ros controller up and running instead?
 	* (This is through the launch file crazyflie2.launch)
 * Why is there a bias in the z-direction? 
-* Are the batteries bad?
