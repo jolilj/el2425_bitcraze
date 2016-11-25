@@ -1,4 +1,8 @@
 # Crazyflie Project
+## TODO
+* Solder push buttons
+* Make custom launch file
+
 ## Setup
 Clone into your catkin workspace
 
