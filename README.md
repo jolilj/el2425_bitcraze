@@ -2,6 +2,10 @@
 ## TODO
 * Solder push buttons
 * Make custom launch file
+* Set up log tools so we can draw some conclusions about the noise and get nice plots :)
+* Override goal publisher
+* Try implement a custom goal publisher and publish new goal positions slowly incremented
+* Look up possible ways of simulating the drone
 
 ## Setup
 Clone into your catkin workspace
