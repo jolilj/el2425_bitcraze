@@ -9,10 +9,18 @@
 * Look up possible ways of simulating the drone
 
 ## Setup
-Clone into your catkin workspace
+Clone this repo along with the crazyflie ROS repo and the Bitcraze Loco Positioning repo into your catkin workspace
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/jolilj/el2425_bitcraze
+git clone https://github.com/jolilj/el2425_bitcraze.git
+git clone https://github.com/whoenig/crazyflie_ros.git
+git clone https://github.com/bitcraze/lps-ros.git
+```
+Make and source
+```
+cd ~/catkin_ws
+catking_make
+source devel/setup.bash
 ```
 
 ## Structure
@@ -33,17 +41,26 @@ roslaunch bitcraze_lps_estimator dwm_loc_ekf_hover.launch uri:=radio://0/CH/RATE
 
 ### Step 2
 Wait for a while for the filter to converge, then check the position(in another terminal tab)
-```rostopic echo /crazyflie/crazyflie_position```
+```
+rostopic echo /crazyflie/crazyflie_position
+```
 
 ### Step 3
 Open new terminal tab and call takeoff service
-```rosservice call /crazyflie/takeoff```
+```
+rosservice call /crazyflie/takeoff
+```
 or run `hover.py`
-```rosrun el2425_bitcraze hover.py```
+
+```
+rosrun el2425_bitcraze hover.py
+```
 
 ### Step 4
 Stop hovering by calling the land service
-```rosservice call /crazyflie/land```
+```
+rosservice call /crazyflie/land
+```
 ## Hardware notes
 
 ### Radio addresses
