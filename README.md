@@ -42,8 +42,8 @@ or run `hover.py`
 ```rosrun el2425_bitcraze hover.py```
 
 ### Step 4
-Stop hovering by stopping first script
-
+Stop hovering by calling the land service
+```rosservice call /crazyflie/land```
 ## Hardware notes
 
 ### Radio addresses
