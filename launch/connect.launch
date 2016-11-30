@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="uri" default="radio://0/80/2M" />
+  <arg name="ch" default="80" />
   <arg name="frame" default="base_link" />
-  <arg name="joy_dev" default="/dev/input/js0" />
-  <arg name="x" default="2.8" />
-  <arg name="y" default="2.3" />
-  <arg name="z" default="1" />
 
   <node name="log_range" pkg="bitcraze_lps_estimator" type="log_range.py" />
 
@@ -15,10 +11,11 @@
 
 
   <group ns="crazyflie">
+    <arg name="goal" />
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="$(arg uri)" />
+      <param name="uri" value="radio://0/$(arg ch)/2M" />
       <param name="tf_prefix" value="crazyflie" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
