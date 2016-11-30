@@ -1,0 +1,123 @@
+\chapter*{Week 44}
+
+
+\section*{Week Goals}
+
+This week we have four main goals:
+\begin{itemize}
+\item get more information about \texttt{Bitcraze} and the \texttt{Crazyflies};
+\item assemble two \texttt{Crazyflies};
+\item learn more about \ROS{} (we do this one together in the tutorial on Friday);
+\item write down a project plan.
+\end{itemize}
+
+Following Jonas's instructions, I kindly ask you to submit a first version of the project plan on \deadline{Friday, Nov 4th}.
+You can then bring a revised version on our next meeting on \deadline{Monday, Nov 7th, 16:00}.
+
+Below you can read some guidelines to get you started on the week goals.
+
+
+
+\section*{Get more information about \texttt{Bitcraze}}
+
+The \texttt{Bitcraze} website is \href{https://bitcraze.io}{\texttt{bitcraze.io}}.
+I encourage you to explore the website freely, but I am also going to point you to the parts that we will need most.
+
+The \href{}{\texttt{Products}} tab contains a list of the Bitcraze products.
+In the box that you have received this morning, there are two \href{https://www.bitcraze.io/crazyflie-2/}{\texttt{Crazyflie 2.0}}, two \href{https://www.bitcraze.io/crazyradio-pa/}{\CRPA{}}, and one \href{https://www.bitcraze.io/loco-pos-system/}{\LPS{}}.
+Note that the \href{}{\LPS{}} is not a single piece of hardware, but it is made up of six \href{https://www.bitcraze.io/loco-pos-deck/}{\LPN{}}s and one \href{https://www.bitcraze.io/loco-pos-deck/}{\LPD{}}.
+Take a good look at these links to make sure you get familiar with these objects, and you know which is called what.
+In the box, I have also thrown in six power banks and six USB cables, which you will need to power the positioning system.
+All together, this is all the hardware that you need to complete the project course.
+
+Under the \href{}{\texttt{Tutorials}} tab there is the \href{https://www.bitcraze.io/getting-started-with-the-crazyflie-2-0/}{\texttt{Getting Started with the Crazyflie 2.0}} tutorial, which contains instructions on how to assemble the two Crazyflies.
+
+Under the \href{}{\texttt{Support}} tab there are a lot of help sources that you can consult if you get in trouble.
+These sources include a FAQ and a forum.
+
+Bitcraze have their own \href{https://github.com/bitcraze}{\texttt{Github} account}.
+As you can see, they have a lot of repositories, but we will only need a small number of these for the project course.
+Instead of downloading all their code, I suggest that you follow their tutorials, and progressively download repositories as you need them.
+Of course the repositories can be cloned with \href{https://git-scm.com/}{\texttt{git}}.
+If you are not familiar with \href{}{\texttt{git}}, then you can also download the repositories from your browser.
+
+Apart from the code released directly by \texttt{Bitcraze}, you will also need the \ROS{} libraries for the \href{}{\texttt{Crazyflie 2.0}}.
+These libraries have been developed by Wolfgang Hoenig, and they are also available on \texttt{Github}, \href{https://github.com/whoenig/crazyflie_ros}{here}.
+
+
+
+
+
+
+
+
+\section*{Assemble two \CF s }
+
+Assembling the Crazyflies is easy and fun, but some of the parts are delicate, and they may break in the process.
+You can follow the \href{https://www.bitcraze.io/getting-started-with-the-crazyflie-2-0/}{\texttt{Getting Started with the Crazyflie 2.0}} tutorial step by step.
+I recommend that you do it slowly, and in groups of at least three people, so that you can help each other.
+
+Note that this tutorial does not cover how to mount the \href{}{\texttt{Loco Positioning deck}}.
+The reason is that the \href{}{\texttt{Loco Positioning deck}} is considered an expansion deck, which are covered in a different tutorial.
+The deck needs to be mounted in the same place as the battery holder.
+For the moment being, you can just mount the battery holder as it is explained in the tutorial; next week, I am going to show you how to replace the battery holder with the \href{}{\texttt{Loco Positioning deck}}.
+
+On the other hand, the tutorial does include the installation of the \texttt{Bitcraze Virtual Machine}, or \texttt{BVM}.
+The \texttt{BVM} gives you a nice GUI to monitor the state of the \CF{}; for example, you can read the IMU data and the battery level.
+You can read get all this data also through the \ROS{} library, but it may be more comfortable to look at it from the GUI.
+Therefore, I would recommend that you install the \texttt{BVM} at least on one computer.
+
+
+
+
+
+
+
+
+\section*{Learn more about \ROS{}}
+
+This point you do not need to cover as an assignment; instead, we are going to have a tutorial session on \deadline{Friday, Nov 4th, 8:00 to 10:00}.
+\ROS{} is best described as a middleware that allows communication between a personal computer and a robot.
+\ROS{} runs (well) only on the operating systems \Ubuntu{} or \texttt{Debian}; in the tutorial, we are going to use \texttt{Ubuntu 14.04 LTS}.
+If you want to follow along on your own laptop, you can install this operating system, which is free to download.
+In the tutorial, we are going to cover \ROS{} installation and basic usage, but we are not going to cover \Ubuntu{} installation; therefore, you should come with \Ubuntu{} already installed, if you want to follow along.
+Note that you can also install Ubuntu on a virtual machine.
+If you want to read ahead, the \ROS{} website is simply \href{http://ros.org}{ros.org}, and there you can find a lot of information and tutorials.
+
+
+
+
+
+
+
+
+
+
+\section*{Write down a project plan}
+
+You should hand in a preliminary version of a project plan on \deadline{Friday, Nov 4th}.
+You can then bring a revised version on our next meeting on \deadline{Monday, Nov 7th 16:00}.
+
+The project plan should include 8 milestones, each to be accomplished at the end of one course week.
+For our project, it would be reasonable to have one \CF{} hovering at the end of the fourth week.
+For the three following weeks, you could set up milestones related to path planning tasks, such as trajectory tracking, obstacle avoidance, flying multiple \CF{}s, collision avoidance, and so on.
+You should allocate at least one week to clean up your code, write the final report, and make presentation slides.
+If you want, after the project we can release a \texttt{Github} repository with the code that you have produced.
+
+
+
+
+
+
+
+
+\section*{Meeting next week}
+
+Our next meeting is set for \deadline{Monday, Nov 7th, 16:00} in the same place as today: Automatic Control Department, Osquldas v\"ag 10, floor 6. Here is what you should bring:
+
+\begin{itemize}
+ \item a project plan with weekly milestones;
+ \item two assembled \texttt{Crazyflies}.
+\end{itemize}
+
+I will write to you as soon as the school laptop(s) is/are ready, in case you want to start installing software on that/those.

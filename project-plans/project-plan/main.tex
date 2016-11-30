@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Project plan EL2425}
+\author{Imran Khan, Robert Lundberg, \\ 
+Caroline Heidenreich, Hui Pang, Pedram Fathollahzadeh, \\ 
+Saber Najafi Yaldouri, Joakim Lilja }
+\date{November 2016}
+
+\begin{document}
+
+\maketitle
+\section{Project Description}
+
+In this project we will implement a navigation controller for the control of two or more drones individually. Initially, the goal is to be able to move two drones to certain points while avoiding collisions. Subsequently, a more advanced path planning task (that has yet to be decided) will be implemented.
+
+\section{Working Method}
+\begin{itemize}
+    \item Weekly meetings with our supervisor to monitor weekly progress and discuss issues
+    \item Weekly meetings with all group members to discuss questions and assign tasks
+    \item Discussions and sharing important information in a facebook group
+    \item Code sharing through a github repository
+    \item Work on assigned tasks individually or in part groups
+    \item Work load per week per person: 20 hours
+\end{itemize}
+\section{Roles and Responsibilities}
+\begin{itemize}
+    \item Project Leader: Joakim
+\item Joakim will have meetings with Jonas after the project reviews
+\item Division of tasks on weekly basis to individuals and part groups
+\end{itemize}
+
+\section{Time Plan}
+\subsection{First week}
+\textbf{Milestone: Having a preliminary project plan and two assembled Crazy Flies}
+\begin{itemize}
+    \item Write down a project plan
+    \item Read up on CrazyFlie (hardware etc.), tutorials etc.
+    \item Assemble two CrazyFlies
+    \item Learn about ROS (attending the seminar)
+\end{itemize}
+
+\subsection{Second week}
+\textbf{Milestone: Software and hardware setup and configuration}
+\begin{itemize}
+    \item Go through ROS-tutorials
+    \item Assemble remaining hardware
+    \item Connect to CrazyFlie
+    \item Connect to anchors
+    \item Set up github-repository
+\end{itemize}
+
+\subsection{Third week}
+\textbf{Milestone: Get attitude and positioning estimation working}
+\begin{itemize}
+    \item Get the anchors positioned (find best positions)
+    \item Implement position/attitude estimation software
+\end{itemize}
+
+\subsection{Fourth week}
+\textbf{Milestone: Get one drone to hover}
+\begin{itemize}
+    \item Implementing abstracted ROS code to moving up the drone (implementing hovering/landing service)
+    \item Tune bitcraze controller
+\end{itemize}
+\subsection{Fifth week}
+\textbf{Milestone: Simple trajectory following for one drone}
+\begin{itemize}
+    \item Get drone to go from point A to point B
+    \item Get drone to follow a simple predefined trajectory, such as a circle
+\end{itemize}
+
+\subsection{Sixth week}
+\textbf{Milestone: Control two agents and implement collision avoidance}
+\begin{itemize}
+    \item Introduce a second agent and get the communication working with both
+    \item Set up algorithms for drones to avoid hitting each other
+\end{itemize}
+
+\subsection{Seventh week}
+\textbf{Milestone: Implement a multiagent pathplanning task}
+\begin{itemize}
+    \item Implementing a more advanced path planning task with at least two drones (still to be determined)
+    \item for example: position swapping, following an anchor, flying in a swarm without colliding
+\end{itemize}
+
+\subsection{Eigth week}
+\textbf{Milestone: Finishing up the project}
+\begin{itemize}
+    \item Cleaning up code
+    \item Making presentation slides
+    \item Writing report
+\end{itemize}
+\end{document}

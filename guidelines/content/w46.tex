@@ -1,0 +1,125 @@
+\chapter*{Week 46}
+
+
+
+
+
+\section*{Week Goals}
+
+This week, our main goal is to set up the \LPS.
+We can break this goal up in three subgoals:
+\begin{itemize}
+  \item make sure we get reasonable range measurements (that is, distance measurements) between each \LPN{} and the \LPD;
+  \item position the six \LPN{}s in the room;
+  \item use at least one of the position-estimate \ROS nodes in the \lstinline|lps_ros| package to measure the position of one \CF.
+\end{itemize}
+
+Here are some specific guidelines to each of the subgoals.
+
+
+
+
+
+
+
+
+\section*{Make sure we get reasonable range measurements}
+
+For this part, make sure that you have installed, built, and sourced the \ROS{} package \lstinline|bitcraze_lps_estimator| from the \Github{} repository \lstinline|bitcraze/lps_ros|.
+Make sure also that you have the addresses of the \LPN{}s set up from \texttt{1} to \texttt{6}.
+
+Usually, when a \ROS{} package is deployed as a \Github{} repository, the repository is given he same name of the package. However, note that in this particular case they have called the repository \lstinline|lps_ros|, even if the \ROS{} package implemented therein is called \lstinline|bitcraze_lps_estimator|.
+I am mentioning this explicitly just to avoid confusion later.
+
+To get the range measurements, you should have at least one \LPN{} turned on, and also a \CF{} with a \LPD{} turned on.
+Then, you can run the node \lstinline|zmq_range| from the package, and it will publish the range measurements as a \ROS{} message, that you can print on your screen.
+To run the node  \lstinline|zmq_range|, open a terminal and type the follwing.
+
+\begin{code}
+
+  $ rosrun bitcraze_lps_estimator zmq_range.py
+
+\end{code}
+
+To get the range measurements printed on screen, open a new terminal and type the following.
+
+\begin{code}
+
+  $ rostopic echo ranging
+
+\end{code}
+
+Check that you get a range measurement from each of the \LPN{}s that are turned on in the room.
+For now, do not worry too much about the quality of the measurement.
+This type of measurement tends to be very noisy, especially in a small space.
+The estimation algorithms that we run in the next section should be able to take care of the noise, and give you a good estimate of the position of the \CF{}.
+
+
+
+
+
+
+
+\section*{Position the \LPN{}s in the room}
+
+I recommend that you start this week by watching \href{https://youtu.be/ZgH4bLZdq2A}{Arnaud Taffanel's tutorial on the \LPS}.
+(Arnaud is one of the main developers at \Bitcraze.)
+Of course, we have already covered some of the points explained by Arnaud in the video, so you can focus on the part where he talks about positioning the \LPN{}s.
+You can find the same tips about positioning the \LPN{}s at \href{https://wiki.bitcraze.io/doc:lps:index#anchor_set-up}{this paragraph of the \Bitcraze{} wiki}.
+Choose the positions according to the criteria in these tutorials and according to the morphology of the room.
+
+
+The wall mounts that Arnaud uses in the video are publicily available on \href{https://github.com/bitcraze/bitcraze-mechanics/blob/master/LPS-anchor-stand/anchor-stand.stl}{this \Github{} repository}.
+We can send an order to get the mounts from a 3D-printing service online, or we can use the 3D printer in \KTH{} for that.
+You can also choose to position the \LPN{}s in a different way, if you prefer.
+Whatever you choose, please "prepare" the purchase and send me a quote, so that I quickly get Jonas's approval and make the actual purchase.
+(I have to be the one doing the purchase.)
+I will bring some rubber bands to fix the \LPN{}s and batteries to the mounts, and some strong tape to fix the mounts to the wall.
+
+
+
+
+
+
+\section*{Measure the position of the \CF}
+
+Once you see that you get range measurements from all six \LPN{}s, you can run one of the estimation algorithms in the \lstinline|bitcraze_lps_estimator| package to estimate the position of the \CF{}.
+
+There are two algorithms in the package: a particle filter, and least-mean-square estimator.
+You can try both of these to see which one gives you the best performance.
+
+Make sure that the six \LPN{}s are positioned, and turned on.
+Copy the file \lstinline|lps_ros/data/anchor_pos.yaml.sample| and name the copy \lstinline|lps_ros/data/anchor_pos.yaml|.
+In this copy, change the six sample positions to the actual positions of the six \LPN{}s.
+
+First, let us run the particle filter. You can run the particle filter from the launchfile \lstinline|dwn_loc.launch|:
+
+\begin{code}
+  $ roslaunch bitcraze_lps_estimator dwn_loc.launch
+\end{code}
+
+Apart from starting the particle filter, this launchfile also opens an instance of \RViz{}, which is a visualization environment.
+In the \RViz{} window, you should be able to see six red dots representing the six \LPN{}s, and one green dot representing the \CF{}.
+When moving the \CF{}, the green dot should move accordingly on screen.
+
+Now you can try the same with the least-mean-squares estimator.
+This estimator can be launched from the launchfile \lstinline|dwn_loc_lms.launch|; therefore, you can start it by typing as follows.
+
+\begin{code}
+  $ roslaunch bitcraze_lps_estimator dwn_loc_lms.launch
+\end{code}
+
+
+
+
+
+
+\section*{Have Fun!}
+
+This week's meeting was anticipated to \deadline{Friday Nov 11th} because of my project meeting next week.
+
+On week 46, I will be on campus and reachable, but I may take longer time responding.
+However, I will give you a visit as soon as I have the occasion, also because we may need to arrange the purchase of the wall mounts.
+
+Please, add me to the project's \Github{} repository when it is ready.
+You can find me on \Github{} as \lstinline|antonioadaldo|.

@@ -1,0 +1,10 @@
+# Latex auxiliary files
+*.aux
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+
+# Pdf files
+*.pdf
