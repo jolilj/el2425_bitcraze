@@ -23,16 +23,19 @@ if __name__ == "__main__":
     
     # Parse goal from terminal
     try:
-        x = sys.argv[1]
-        y = sys.argv[2]
-        z = sys.argv[3]
-    except:
-        print('Please specify hover coordinates, e.g.: hover.py -1.0 1.0 1.0') 
+        x = float(sys.argv[1])
+        y = float(sys.argv[2])
+        z = float(sys.argv[3])
 
-    # Set initial goal position and takeoff!
-    setgoal(x,y,z)
-    takeoff()
+        # Set initial goal position and takeoff!
+        setgoal(x,y,z)
+        takeoff()
 
-    #Wait for user to press any key and then land
-    raw_input("Press any key to land")
-    land()
+        #Wait for user to press any key and then land
+        raw_input("Press any key to land")
+        land()
+    except Exception,e:
+        print(e)
+        print("\n")
+        print('Please specify correct hover coordinates, e.g.: hover.py -1.0 1.0 1.0') 
+
