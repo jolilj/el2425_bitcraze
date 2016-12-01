@@ -37,5 +37,5 @@ if __name__ == "__main__":
     except Exception,e:
         print(e)
         print("\n")
-        print('Please specify correct hover coordinates, e.g.: hover.py -1.0 1.0 1.0') 
+        print('Please specify correct hover coordinates, e.g.: fly.py -1.0 1.0 1.0') 
 
