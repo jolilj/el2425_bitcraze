@@ -1,12 +1,12 @@
 # Crazyflie Project
 
 ## TODO
-* Solder push buttons
-* Make custom launch file
-* Set up log tools so we can draw some conclusions about the noise and get nice plots :)
-* Override goal publisher
-* Try implement a custom goal publisher and publish new goal positions slowly incremented
-* Look up possible ways of simulating the drone
+[] Solder push buttons
+[x] Make custom  launch file
+[] Set up log tools so we can draw some conclusions about the noise and get nice plots :)
+[x] Override goal publisher
+[] Try implement a custom goal publisher and publish new goal positions slowly incremented
+[] Look up possible ways of simulating the drone
 
 ## Setup
 Clone this repo along with the crazyflie ROS repo and the Bitcraze Loco Positioning repo into your catkin workspace
@@ -34,33 +34,51 @@ cp el2425_bitcraze/anchor_pos.yaml lps-ros/data/anchor_pos.yaml
 In order to hover you need to update the crazyflie firmware config. This is done by creating a config.mk file and place it inside `crazyflie-firmware/tools/make`. The file is now in this repo and consists only of two lines. The reason is to enable the kalman filter onboard the crazyflie. See [bitcraze wiki](https://wiki.bitcraze.io/doc:lps:index) for more information.
 
 ### Step 1
-Assuming crazyflie channel is CH (Either **80** or **125** at the moment) and bitrate is RATE(**2M** at the moment) and goal position is ``x0, y0, z0``
+
+Call custom launch file connect.py that takes a channel as input (ch:= 80 or ch:=125).
+
 ```
-roslaunch bitcraze_lps_estimator dwm_loc_ekf_hover.launch uri:=radio://0/CH/RATE x:=x0 y:=y0 z:=z0
+roslaunch el2425_bitcraze connect.py ch:=channel
 ```
 
+
 ### Step 2
+
 Wait for a while for the filter to converge, then check the position(in another terminal tab)
 ```
 rostopic echo /crazyflie/crazyflie_position
 ```
 
 ### Step 3
-Open new terminal tab and call takeoff service
-```
-rosservice call /crazyflie/takeoff
-```
-or run `hover.py`
+
+Run `fly.py` to start hovering with goal coordinates as argument.
 
 ```
-rosrun el2425_bitcraze hover.py
+rosrun el2425_bitcraze fly.py x y z
+```
+Example:
+
+```
+rosrun el2425_bitcraze fly.py -1.0 1.0 1.0
 ```
 
 ### Step 4
-Stop hovering by calling the land service
+
+To change the goal open a new terminal tab and call the `/setgoal` service with x, y and z as arguments. **Important: ** If you call the service with at least one negative input argument, you have to add ` -- ` before setting the argument
 ```
-rosservice call /crazyflie/land
+rosservice call /crazyflie/setgoal x y z
 ```
+
+Example:
+```
+rosservice call /crazyflie/setgoal -- -1.0 1.0 1.0
+```
+The position can be changed by simply calling the `/setgoal` service again.
+
+### Step 5
+
+Stop hovering by pressing any key.
+
 ## Hardware notes
 
 ### Radio addresses
