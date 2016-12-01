@@ -35,10 +35,9 @@ In order to hover you need to update the crazyflie firmware config. This is done
 
 ### Step 1
 
-Call custom launch file connect.py that takes a channel as input (ch:= 80 or ch:=125).
-
+Call custom launch file connect.py that takes a channel as input (ch:= 80 or ch:=125) as well as initial goal po
 ```
-roslaunch el2425_bitcraze connect.launch ch:=channel
+roslaunch el2425_bitcraze connect.launch ch:=channel x:=x0 y:=y0 z:=z0
 ```
 
 
@@ -51,10 +50,10 @@ rostopic echo /crazyflie/crazyflie_position
 
 ### Step 3
 
-Run `fly.py` to start hovering with goal coordinates as argument.
+Run `fly.py` to start hovering at initial goal position.
 
 ```
-rosrun el2425_bitcraze fly.py x y z
+rosrun el2425_bitcraze fly.py
 ```
 Example:
 
