@@ -19,7 +19,7 @@ git clone https://github.com/bitcraze/lps-ros.git
 Make and source
 ```
 cd ~/catkin_ws
-catking_make
+catkin_make
 source devel/setup.bash
 ```
 
@@ -38,7 +38,7 @@ In order to hover you need to update the crazyflie firmware config. This is done
 Call custom launch file connect.py that takes a channel as input (ch:= 80 or ch:=125).
 
 ```
-roslaunch el2425_bitcraze connect.py ch:=channel
+roslaunch el2425_bitcraze connect.launch ch:=channel
 ```
 
 
