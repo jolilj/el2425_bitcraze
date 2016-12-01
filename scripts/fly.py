@@ -3,7 +3,7 @@
 import sys
 import rospy
 from std_srvs.srv import Empty
-from el2425_bitcraze.src import SetGoal
+from el2425_bitcraze.srv import SetGoal
 
 # Enable the takeoff service. This assumes the crazyflie position is accurately estimated by the LPS system. 
 # It might take a few seconds for the ekf to converge so wait before running this
