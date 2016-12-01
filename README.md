@@ -55,11 +55,6 @@ Run `fly.py` to start hovering at initial goal position.
 ```
 rosrun el2425_bitcraze fly.py
 ```
-Example:
-
-```
-rosrun el2425_bitcraze fly.py -1.0 1.0 1.0
-```
 
 ### Step 4
 
