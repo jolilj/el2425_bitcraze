@@ -1,0 +1,56 @@
+\chapter*{Week 48}
+
+
+
+
+
+\section*{Week Goals}
+
+This week, our main goal is to control two \CF{}s at the same time.
+According to your plan, the milestones are:
+\begin{itemize}
+  \item introducing a second agent and get the communication working with both;
+  \item setting up algorithms for drones to avoid hitting each other.
+\end{itemize}
+Here come some ideas and guidelines to reach these goals.
+
+
+\section*{Communicating with two \CF{}s at the same time}
+
+In general, there are two ways two control multiple \CF{}s.
+One way is to use one \CRPA{} for each \CF{}; the other way is to use a single \CRPA{} for all the \CF{}s.
+
+I have posted \href{https://github.com/whoenig/crazyflie_ros/issues/50}{this issue} to ask Wolfgang how to set the radio URIs when controlling multiple \CF{}s with a single radio.
+If we get an informative reply soon, then it should be easy for us to set up the communication with two \CF{}s.
+
+After we have a \CRPA{} connected to two \CF{}s, we only need to launch two copies of the nodes that we have been launching so far.
+The repo \lstinline|lps_ros| already contains some launchfiles for control of muliple copters with the \LPS{};
+therefore, you can use one of these launchfiles as a template.
+For example, take a look at \href{https://github.com/bitcraze/lps-ros/blob/master/launch/dwm_loc_ekf_multi_hover.launch}{this launchfile} for multiple hovering with the \EKF{}.
+
+
+\section*{Setting up algorithms for collision avoidance}
+
+Collision avoidance is a very famous problem in the context of multi-agent systems.
+Over the years, many different approaches have been proposed, and each has its pros and cons.
+You do not need to find the perfect algorithm for collision avoidance---also because it does not exist.
+It would be nice if you can look over the internet to find one path planning algorithm that allows two autonomous agents to go each to its own goal position while avoiding collisions with each other.
+
+I suggest that you do not simply use \textsc{Google} for this task, because there are search engines for scientific papers that tend to yield much better results.
+For example, you may try \href{http://ieeexplore.ieee.org/Xplore/home.jsp}{\textsc{IEEE Xplore}} or \href{http://www.sciencedirect.com/science/journals/all}{\textsc{ScienceDirect}}.
+As far as I know you have full access to this material via your \KTH{} account.
+If you should have access problems, let me know and we will see what we can do.
+
+Once you have found an algorithm that you like, you can start thinking about how to implement it to control the \CF{}.
+Remember that your planning algorithm does not need to substitute the \PID{} on the \CF{}s: it simply needs to provide the reference positions to the \PID{}.
+
+
+
+
+\section*{Have fun!}
+
+We are probably in the most exciting part of the course.
+Congratulations on your progress so far and keep up the good work!
+I should be able to join your weekly meeting on Wednesday; I will keep you updated on this.
+I prefer not to set myself a meeting slot this week, because it is clear that I have a tendency to mislocate those slots.
+Have fun!
