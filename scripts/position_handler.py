@@ -6,6 +6,7 @@ import sys
 import tf
 from el2425_bitcraze.srv import SetGoal 
 from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import Float32MultiArray as Array
 
 class PositionHandler:
     def __init__(self, x, y, z):
@@ -18,7 +19,7 @@ class PositionHandler:
         self.msg.pose.position.z = z
 
         self.goal = [x,y,z]
-        self.delT = 0.5
+        self.delT = 0.2
 
         yaw = 0
         quaternion = tf.transformations.quaternion_from_euler(0, 0, yaw)
@@ -27,8 +28,9 @@ class PositionHandler:
         self.msg.pose.orientation.z = quaternion[2]
         self.msg.pose.orientation.w = quaternion[3]
 
-        self.rate = rospy.Rate(30)
-        self.pub = rospy.Publisher("/crazyflie/goal", PoseStamped, queue_size=1)
+        self.rate = rospy.Rate(5)
+        self.goalPub = rospy.Publisher("/crazyflie/goal", PoseStamped, queue_size=1)
+        self.targetPosPub = rospy.Publisher("/crazyflie/target_pos", Array, queue_size=1, latch=True)
         self.setGoalService = rospy.Service('/crazyflie/setgoal', SetGoal, self.goalServiceCallback)
         self.isRunning = False
 
@@ -41,13 +43,13 @@ class PositionHandler:
         delta_y = self.goal[1]-y_old
         delta_z = self.goal[2]-z_old
 
-        print "delta x: %f" %(delta_x)
+        #print "delta x: %f" %(delta_x)
         
-        delta_len = (math.sqrt(math.pow(delta_x,2)+math.pow(delta_y,2)+math.pow(delta_z,2)))
-        print "delta_len: %f" %(delta_len)
+        delta_norm = (math.sqrt(math.pow(delta_x,2)+math.pow(delta_y,2)+math.pow(delta_z,2)))
+        #print "delta_len: %f" %(delta_len)
         k = 0
-        if not delta_len == 0:
-            k = 0.4*self.delT/delta_len
+        if not delta_norm == 0:
+            k = 0.02/(self.delT*delta_norm)
 
         x_new = x_old+k*delta_x
         y_new = y_old+k*delta_y
@@ -55,7 +57,6 @@ class PositionHandler:
 	  
         #If overshoot set new position to goal
         if math.fabs(self.goal[0]-x_old) < math.fabs(k*delta_x):
-            print("Hej")
             x_new = self.goal[0]
             y_new = self.goal[1]
             z_new = self.goal[2]
@@ -64,12 +65,15 @@ class PositionHandler:
         self.msg.pose.position.y = y_new
         self.msg.pose.position.z = z_new
         
-        print "Intermediate goal: [x: %f, y: %f, z: %f]\n" %(x_new, y_new, z_new)
+        #print "Intermediate goal: [x: %f, y: %f, z: %f]\n" %(x_new, y_new, z_new)
         
 
     def goalServiceCallback(self, req):
-        print "Msg received: [x: %f, y: %f, z: %f]\n" %(req.x, req.y, req.z)
+        #print "Msg received: [x: %f, y: %f, z: %f]\n" %(req.x, req.y, req.z)
         self.goal = [req.x, req.y, req.z]
+        msg = Array()
+        msg.data = self.goal
+        self.targetPosPub.publish(msg)
         return()
 
     def run(self):
@@ -77,13 +81,13 @@ class PositionHandler:
         while not rospy.is_shutdown():
             time = rospy.get_time()
             if time-prevTime > self.delT:
-                print "Delta T: %f" %(time-prevTime)
+                #print "Delta T: %f" %(time-prevTime)
                 self.calcIntermediateGoal()
                 prevTime = time
 
             self.msg.header.seq += 1
             self.msg.header.stamp = rospy.Time.now()
-            self.pub.publish(self.msg)
+            self.goalPub.publish(self.msg)
             self.rate.sleep();
 
 if __name__ == "__main__":
