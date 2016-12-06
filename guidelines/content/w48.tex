@@ -1,0 +1,80 @@
+\chapter*{Week 48}
+
+
+
+\section*{Week Goals}
+
+First of all, congratulations on a great half-project review demo!
+This week, we finally start to write our own code.
+Keep \href{http://wiki.ros.org}{the \ROS{} wiki} under your pillow (figuratively), since we will probably need to look up for syntax multiple times.
+From the project plan, this week we need to
+\begin{itemize}
+\item bring one \CF{} from a starting position to a goal position;
+\item make one \CF{} follow an assigned trajectory, such as a circle.
+\end{itemize}
+Here come some suggestions to achieve these goals.
+
+
+\section*{Recording and playing back data}
+
+Recording and playing back your experiment is an awesome way to diagnose errors in the code and other problems.
+\ROS{} comes already with a record and playback tool, called \lstinline|rosbag|.
+Simply put, there are two commands that you can use with \lstinline|rosbag|: \lstinline|record| and \lstinline|play|.
+With \lstinline|rosbag record|, you can record the messages published to one or more topics of your choice, during a \lstinline|roscore| session, and save them in a file, called a \emph{bagfile}.
+With \lstinline|rosbag play|, you can play back the messages recorded in a bagfile, just like they were being published again.
+You can read all about \lstinline|rosbag| at \href{http://wiki.ros.org/rosbag}{this page of the \ROS{} wiki}.
+
+
+\section*{Publishing a goal position for the \CF{}}
+
+To make the \CF{} go to a goal point of your choice, you need to publish that goal point on the appropriate topic.
+Launch your hovering experiment, and find out what is the topic that the controller is listening to.
+One way to find this out is to run \lstinline|rqt_graph|.
+(To run \lstinline|rqt_graph| you just need to type \lstinline|rqt_graph| in your terminal.)
+For example, in my setup, if I launch the file \lstinline|dwm_loc_ekf_hover|, then the goal point is published by a node called \lstinline|/crazyflie/pose|, on a topic called \lstinline|/crazyflie/goal|.
+
+Now you need to do two things: remove the node that is currently publishing on the goal topic, and; start publishing your own goal on the same topic.
+
+To remove the node that is currently publishing on the goal topic, you can simply remove the call to that node from the launchfile that you are using.
+Keep a clean copy of the launchfile as a backup.
+
+To publish your own goal, you can use \lstinline|rostopic pub|, a publisher script, or the \lstinline|rqt| message publisher tool.
+On the \ROS{} website, there is \href{http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29}{this tutorial on writing a publisher script}, which you have probably already done.
+The link sends you to the \Python{} version, but there is also a \Cpp{} version.
+Theoretically, it would be sufficient to publish a new goal point one single time to make the \CF{} go there.
+However, publishing the goal point a single time is very vulnerable to packet drops and communication errors.
+I recommend that you publish the goal point repeatedly, at a low rate with respect to the controller rate.
+For example, it should be more than sufficient to publish the goal point once every few seconds.
+All three publishing tools that we mentioned above will publish repeatedly by default. They also let you specify the frequency at which you want to publish your message.
+
+
+
+\section*{Making the \CF{} follow an assigned trajectory}
+
+To make the \CF{} follow an assigned trajectory, you simply need to publish consecutive goal points along the trajectory.
+In this case, you need to publish the goal at a higher rate: I would say at least ten times per second to obtain a smooth-looking trajectory.
+Of course we cannot manually publish ten different goal points per second; instead, we need a script to do that for us.
+
+All you need to do in the script is to compute the trajectory point as a function of time, and publish it to the appropriate topic.
+\ROS{} gives you several ways to obtain the current time.
+For example, in \lstinline|rospy|, \lstinline|rospy.get_time()| returns the current time in float seconds since January 1st in 19-something.
+Of course, you may want to plan your trajectories according to the time elapsed since when you launched the script.
+
+Before you publish your goal point, make sure you have formatted the message in the appropriate way.
+The steps to do this are slightly different depending on the programming language, but essentially, you need to construct a message object and fill in its attributes with the coordinates of your goal point.
+Consider that \lstinline|/crazyflie/goal| is of the type \lstinline|geometry_msgs/PoseStamped|.
+You can read all the attributes of this message \href{http://docs.ros.org/api/geometry_msgs/html/msg/PoseStamped.html}{on this page}, but you only need to fill in the attributes \lstinline|pose.position.x|, \lstinline|pose.position.y|, \lstinline|pose.position.z|.
+
+
+\section*{Start thinking about the report}
+
+Start giving some thought on how you would like to structure your report.
+If there is no reference to specific requirements in the course material, you can also ask Jonas directly.
+I think I didn't get a reply on my proposal of doing an extended documentation, but we can ask him again, if you like.
+
+
+\section*{Have fun!}
+
+I look forward to seeing your new script(s) pop up on \Github{}.
+I can come down on \deadline{Thursday Dec 1st at 17:00} to catch up.
+Have fun!

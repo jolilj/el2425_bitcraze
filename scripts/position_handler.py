@@ -47,7 +47,7 @@ class PositionHandler:
         print "delta_len: %f" %(delta_len)
         k = 0
         if not delta_len == 0:
-            k = 0.2*self.delT/delta_len
+            k = 0.4*self.delT/delta_len
 
         x_new = x_old+k*delta_x
         y_new = y_old+k*delta_y
