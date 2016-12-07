@@ -2,11 +2,15 @@
 
 ## TODO
 - [ ] Solder push buttons
-- [ ] Write higher level target position publisher
-- [ ] Review simple collision avoidance algorithms
-- [ ] Set up log tools so we can draw some conclusions about the noise and get nice plots :)
-- [ ] Control two crazyflies with one or two radios
-- [ ] Start writing project report
+- [ ] Write higher level target position publisher (Imran and Saber)
+- [ ] Review simple collision avoidance algorithms (Hui)
+- [ ] Implement collison avoidance (?)
+- [ ] Set up automatic logging and a matlab script(Pedram and Imran)
+- [ ] Control two crazyflies with one or two radios (Robert)
+- [ ] Start writing project report (Caro)
+- [ ] Write project review and revised project plan (Caro)
+- [ ] Find optimal spot in the room for good position estimation (?) 
+- [ ] Document and comment current code (Joakim)
 - [x] Make custom  launch file
 - [x] Override goal publisher
 - [x] Try implement a custom goal publisher and publish new goal positions slowly incremented
