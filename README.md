@@ -2,11 +2,14 @@
 
 ## TODO
 - [ ] Solder push buttons
-- [x] Make custom  launch file
+- [ ] Write higher level target position publisher
+- [ ] Review simple collision avoidance algorithms
 - [ ] Set up log tools so we can draw some conclusions about the noise and get nice plots :)
+- [ ] Control two crazyflies with one or two radios
+- [x] Make custom  launch file
 - [x] Override goal publisher
-- [ ] Try implement a custom goal publisher and publish new goal positions slowly incremented
-- [ ] Look up possible ways of simulating the drone
+- [x] Try implement a custom goal publisher and publish new goal positions slowly incremented
+- [x] Look up possible ways of simulating the drone
 
 ## Setup
 Clone this repo along with the crazyflie ROS repo and the Bitcraze Loco Positioning repo into your catkin workspace
