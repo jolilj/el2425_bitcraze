@@ -43,7 +43,7 @@ cp el2425_bitcraze/anchor_pos.yaml lps-ros/data/anchor_pos.yaml
 In order to hover you need to update the crazyflie firmware config. This is done by creating a config.mk file and place it inside `crazyflie-firmware/tools/make`. The file is now in this repo and consists only of two lines. The reason is to enable the kalman filter onboard the crazyflie. See [bitcraze wiki](https://wiki.bitcraze.io/doc:lps:index) for more information.
 
 To understand the different steps it's important to distinguish between the different reference points.
-First of all the crazyflie has an internal PID controller that receives a reference point a long with the position estimate from the **lps-ros package**. This reference point is published on the **goal** topic. 
+First of all the crazyflie has an internal PID controller that receives a reference point along with the position estimate from the **lps-ros package**. This reference point is published on the **goal** topic. 
 
 Secondly, we have implemented a higher level abstraction from this. The user instead specifies a **target point** representing the wanted position of the crazyflie. The reason for this is to be able to handle large step changes in the reference, keep constant velocity etc. When the user calls the `/crazyflie/set_target_position`, intermediate **goal points** are calculated and published on the **goal topic**. These are linearly interpolated between the previous target point and the new target point.
 
@@ -82,8 +82,6 @@ Example:
 rosservice call /crazyflie/set_target_position -- -1.0 1.0 1.0
 ```
 The position can be changed by simply calling the `/set_target_position` service again.
-
-Under the hood we have a position handler that takes the target position given by the setgoal service and linearly interpolates goal points (reference points for the internal PID controller) in between.
 
 ### Step 5
 
