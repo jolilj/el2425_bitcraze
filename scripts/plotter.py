@@ -3,7 +3,7 @@ import rospy
 import math
 from anchorpos import get_anchors_pos
 from visualization_msgs.msg import Marker, MarkerArray
-from el2425_bitcraze.srv import SetGoal 
+from el2425_bitcraze.srv import SetTargetPosition 
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray as Array
 from geometry_msgs.msg import Point
