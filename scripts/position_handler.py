@@ -8,6 +8,9 @@ from el2425_bitcraze.srv import SetTargetPosition
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray as Array
 
+# ======= PositionHandler class
+# Calculates reference points for the crazyflie PID controller based on target points set by the user
+# Defines the service set_target_position
 class PositionHandler:
     def __init__(self, x, y, z):
         self.msg = PoseStamped()
