@@ -57,10 +57,7 @@ roslaunch el2425_bitcraze connect.launch ch:=channel x:=x0 y:=y0 z:=z0
 
 ### Step 2
 
-Wait for a while for the filter to converge, then check the position(in another terminal tab)
-```
-rostopic echo /crazyflie/crazyflie_position
-```
+Wait for a while for the filter to converge (check RViz).
 
 ### Step 3
 
@@ -88,7 +85,7 @@ The position can be changed by simply calling the `/set_target_position` service
 Stop hovering by pressing any key in the terminal where the fly.py script is running.
 
 ### Trajectory plotting
-The reference trajectory and the corresponding crazyflie trajectory is plotted in rviz. The crazyflie trajectory is plotted once a target position has been set (by calling setgoal).
+The reference trajectory and the corresponding crazyflie trajectory is plotted in RViz. The crazyflie trajectory is plotted once a target position has been set (by calling `/set_target_position`).
 
 
 ## Hardware notes
