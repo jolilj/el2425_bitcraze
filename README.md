@@ -4,9 +4,10 @@
 - [ ] Solder push buttons
 - [ ] Write higher level target position publisher (Imran and Saber)
 - [ ] Review simple collision avoidance algorithms (Hui)
-- [ ] Implement collison avoidance (?)
+- [ ] Model collision avoidance (Design) (Hui and Pedram)
+- [ ] Implement collision avoidance (Coding!) (Hui and Pedram)
 - [ ] Set up automatic logging and a matlab script(Pedram and Imran)
-- [ ] Control two crazyflies with one or two radios (Robert)
+- [ ] Control two crazyflies with one or two radios (Robert, Joakim)
 - [ ] Start writing project report (Caro)
 - [ ] Write project review and revised project plan (Caro)
 - [ ] Find optimal spot in the room for good position estimation (?) 
