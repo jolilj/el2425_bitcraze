@@ -72,7 +72,7 @@ rosrun el2425_bitcraze fly.py
 
 ### Step 4
 
-To change the target position open a new terminal tab and call the `/crazyflie/set_target_position` service with x, y and z as arguments. **Important: ** If you call the service with at least one negative input argument, you have to add ` -- ` before setting the argument
+To change the target position open a new terminal tab and call the `/crazyflie/set_target_position` service with x, y and z as arguments. **Important:** If you call the service with at least one negative input argument, you have to add ` -- ` before setting the argument
 ```
 rosservice call /crazyflie/set_target_position x y z
 ```
