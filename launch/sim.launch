@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="x" default="0" />
+    <arg name="y" default="0" />
+    <arg name="z" default="0" />
+    <arg name="frame" default="base_link" />
+    
+    <group ns="crazyflie">
+        <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen">
+          <param name="x" value="$(arg x)" />
+          <param name="y" value="$(arg y)" />
+          <param name="z" value="$(arg z)" />
+        </node>
+    </group>
+
+    <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+
+     <node name="rviz" pkg="rviz" type="rviz"
+        args="-d $(find el2425_bitcraze)/data/rvizconfig_sim.rviz"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"
+        args="1 0 0 0 0 0 1 world lps 100" />
+    
+</launch>

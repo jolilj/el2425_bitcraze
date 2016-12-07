@@ -10,7 +10,7 @@
 
   <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie2.urdf.xacro" />
   <node name="rviz" pkg="rviz" type="rviz"
-        args="-d $(find bitcraze_lps_estimator)/data/rvizconfig_with_goal.rviz"/>
+        args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf.rviz"/>
 
 
   <group ns="crazyflie">
@@ -39,6 +39,7 @@
       <param name="y" value="$(arg y)" />
       <param name="z" value="$(arg z)" />
     </node>
+    <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
   </group>
 
 
