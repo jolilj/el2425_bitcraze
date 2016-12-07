@@ -4,7 +4,7 @@ import rospy
 import math
 import sys
 import tf
-from el2425_bitcraze.srv import SetGoal 
+from el2425_bitcraze.srv import SetTargetPosition
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray as Array
 
@@ -31,7 +31,7 @@ class PositionHandler:
         self.rate = rospy.Rate(5)
         self.goalPub = rospy.Publisher("/crazyflie/goal", PoseStamped, queue_size=1)
         self.targetPosPub = rospy.Publisher("/crazyflie/target_pos", Array, queue_size=1, latch=True)
-        self.setGoalService = rospy.Service('/crazyflie/setgoal', SetGoal, self.goalServiceCallback)
+        self.setGoalService = rospy.Service('/crazyflie/set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
         self.isRunning = False
 
     def calcIntermediateGoal(self):
@@ -68,7 +68,7 @@ class PositionHandler:
         #print "Intermediate goal: [x: %f, y: %f, z: %f]\n" %(x_new, y_new, z_new)
         
 
-    def goalServiceCallback(self, req):
+    def targetPositionServiceCallback(self, req):
         #print "Msg received: [x: %f, y: %f, z: %f]\n" %(req.x, req.y, req.z)
         self.goal = [req.x, req.y, req.z]
         msg = Array()
