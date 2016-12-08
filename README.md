@@ -7,11 +7,11 @@
 - [ ] Model collision avoidance (Design) (Hui and Pedram)
 - [ ] Implement collision avoidance (Coding!) (Hui and Pedram)
 - [ ] Set up automatic logging and a matlab script(Pedram and Imran)
-- [ ] Control two crazyflies with one or two radios (Robert, Joakim)
-- [ ] Start writing project report (Caro)
-- [ ] Write project review and revised project plan (Caro)
+- [ ] Control two crazyflies with one or two radios (Robert, Joakim, Caro)
 - [ ] Find optimal spot in the room for good position estimation (?) 
-- [ ] Document and comment current code (Joakim)
+- [x] Start writing project report (Caro)
+- [x] Started project review and revised project plan (Caro)
+- [x] Document and comment current code (Joakim)
 - [x] Make custom  launch file
 - [x] Override goal publisher
 - [x] Try implement a custom goal publisher and publish new goal positions slowly incremented
