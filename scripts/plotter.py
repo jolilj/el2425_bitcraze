@@ -143,8 +143,8 @@ class Plotter:
 # ============= MAIN LOOP ===================================================
 if __name__ == "__main__":
     rospy.init_node("plotter")
-    x = rospy.get_param("/crazyflie/position_handler/x")
-    y = rospy.get_param("/crazyflie/position_handler/y")
-    z = rospy.get_param("/crazyflie/position_handler/z")
+    x = rospy.get_param("x")
+    y = rospy.get_param("y")
+    z = rospy.get_param("z")
     sim = Plotter(x,y,z)
     rospy.spin()
