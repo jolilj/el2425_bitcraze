@@ -8,15 +8,25 @@ from std_srvs.srv import Empty
 # It might take a few seconds for the ekf to converge so wait before running this
 
 if __name__ == "__main__":
+    cfId = 1
+    if len(sys.argv) < 2:
+        # Which crazyflie?
+        cfId = raw_input("Which crazyflie?")
+    else:
+        cfId = sys.argv[1]
+
+    takeoffURI = "/crazyflie%s/takeoff" %(cfId) 
+    landURI = "/crazyflie%s/land" %(cfId) 
+    
     # Wait for services to become available
     rospy.loginfo("waiting for services")
-    rospy.wait_for_service('/crazyflie/takeoff')
-    rospy.wait_for_service('/crazyflie/land')
+    rospy.wait_for_service(takeoffURI)
+    rospy.wait_for_service(landURI)
     rospy.loginfo("found services")
     
     # Service call functions
-    takeoff = rospy.ServiceProxy('/crazyflie/takeoff', Empty)
-    land = rospy.ServiceProxy('/crazyflie/land', Empty)
+    takeoff = rospy.ServiceProxy(takeoffURI, Empty)
+    land = rospy.ServiceProxy(landURI, Empty)
 
     # Initial goal is already set from the position_handler, only need to takeoff.
     takeoff()
