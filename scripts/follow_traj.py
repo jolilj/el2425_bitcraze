@@ -22,9 +22,9 @@ class Trajectory:
 # ======= TOPIC CALLBACKS ================================================== 
  
     def way_points(self,r):
-        x_old = -0.5
-        y_old = 1.8
-        z_old = 1
+        x_old = -0.4
+        y_old = 1.4
+        z_old = 1.5
 
         theta = 0
         theta_rad = 0
@@ -38,16 +38,16 @@ class Trajectory:
             y_new = y_cent + r*math.sin(theta_rad)
             z_new = z_cent
             self.callTargetPositionService(x_new, y_new, z_new)
-            theta = theta + 20
+            theta = theta + 10
             print "Point: %f" %(self.point.x)
             #rate.sleep()
             if theta >= 360:
                 theta = 0
             self.rate.sleep()
-            if not self.flag:
-                self.rate.sleep()
-                self.rate.sleep()
-                self.flag = 1
+            # if not self.flag:
+            #     self.rate.sleep()
+            #     self.rate.sleep()
+            #     self.flag = 1
 
 
 
