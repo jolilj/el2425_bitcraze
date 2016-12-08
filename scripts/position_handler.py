@@ -108,9 +108,9 @@ class PositionHandler:
 
 if __name__ == "__main__":
     rospy.init_node("position_handler")
-    x = rospy.get_param("~x")
-    y = rospy.get_param("~y")
-    z = rospy.get_param("~z")
+    x = rospy.get_param("x")
+    y = rospy.get_param("y")
+    z = rospy.get_param("z")
 
     posHandler = PositionHandler(x,y,z)
     posHandler.run()
