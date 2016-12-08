@@ -19,7 +19,7 @@
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="radio://0/$(arg ch)/2M/$(arg address)" />
+      <param name="uri" value="radio://0/$(arg ch)/2M"/>
       <param name="tf_prefix" value="crazyflie" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
