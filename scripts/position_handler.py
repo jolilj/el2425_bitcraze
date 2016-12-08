@@ -43,9 +43,9 @@ class PositionHandler:
         self.referenceMsg.pose.orientation.w = quaternion[3]
 
         self.rate = rospy.Rate(20)
-        self.goalPub = rospy.Publisher("~goal", PoseStamped, queue_size=1)
-        self.targetPosPub = rospy.Publisher("~target_pos", Array, queue_size=1, latch=True)
-        self.setGoalService = rospy.Service('~set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
+        self.goalPub = rospy.Publisher("goal", PoseStamped, queue_size=1)
+        self.targetPosPub = rospy.Publisher("target_pos", Array, queue_size=1, latch=True)
+        self.setGoalService = rospy.Service('set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
         self.isRunning = False
    
     # ====== Target Position Service Callback ==== 
@@ -55,7 +55,7 @@ class PositionHandler:
     #     * update the internal target position variable used when calculating the intermediate goals 
     def targetPositionServiceCallback(self, req):
         self.targetPosition = [req.x, req.y, req.z]
-
+	msg = Array()
         msg.data = self.targetPosition
         self.targetPosPub.publish(msg)
         return()

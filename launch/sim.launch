@@ -11,10 +11,8 @@
           <param name="y" value="$(arg y)" />
           <param name="z" value="$(arg z)" />
         </node>
+        <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
     </group>
-
-    <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
-
      <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find el2425_bitcraze)/data/rvizconfig_sim.rviz"/>
 

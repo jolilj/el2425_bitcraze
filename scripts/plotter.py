@@ -32,9 +32,9 @@ class Plotter:
         self.shouldPlotCF = False
         
         # Subscribe to topics in relative namespace (that is for a specific crazyflie)
-        rospy.Subscriber('~goal', PoseStamped, self.goalCallback)
-        rospy.Subscriber('~target_pos', Array, self.targetPosCallback)
-        rospy.Subscriber('~crazyflie_position', Point, self.cfPositionCallback)
+        rospy.Subscriber('goal', PoseStamped, self.goalCallback)
+        rospy.Subscriber('target_pos', Array, self.targetPosCallback)
+        rospy.Subscriber('crazyflie_position', Point, self.cfPositionCallback)
 
         # Publish on global rviz topics
         self.markerPub = rospy.Publisher("/viz/target_points", MarkerArray, queue_size=1, latch=True)
