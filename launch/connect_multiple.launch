@@ -18,13 +18,13 @@
   <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf.rviz"/>
 
-  <group ns="crazyflie">
+  <group ns="crazyflie1">
     <arg name="goal" />
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
       <param name="uri" value="$(arg uri0)" />
-      <param name="tf_prefix" value="crazyflie" />
+      <param name="tf_prefix" value="crazyflie1" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
         genericLogTopicFrequencies: [30, 30]
