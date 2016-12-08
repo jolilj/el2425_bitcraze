@@ -31,12 +31,12 @@ class Plotter:
         # The cf trajectory should therefore not be plotted until the first user specified target point is published
         self.shouldPlotCF = False
         
-        # Subscribe to topics
-        rospy.Subscriber("/crazyflie/goal", PoseStamped, self.goalCallback)
-        rospy.Subscriber('/crazyflie/target_pos', Array, self.targetPosCallback)
-        rospy.Subscriber('/crazyflie/crazyflie_position', Point, self.cfPositionCallback)
+        # Subscribe to topics in relative namespace (that is for a specific crazyflie)
+        rospy.Subscriber('~goal', PoseStamped, self.goalCallback)
+        rospy.Subscriber('~target_pos', Array, self.targetPosCallback)
+        rospy.Subscriber('~crazyflie_position', Point, self.cfPositionCallback)
 
-        # Publish on rviz topics
+        # Publish on global rviz topics
         self.markerPub = rospy.Publisher("/viz/target_points", MarkerArray, queue_size=1, latch=True)
         self.trajPub = rospy.Publisher("/viz/trajectory", MarkerArray, queue_size=10, latch=True)
         self.cfTrajPub = rospy.Publisher("/viz/cf_trajectory", MarkerArray, queue_size=10, latch=True)
