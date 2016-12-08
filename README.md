@@ -3,7 +3,7 @@
 ## TODO
 - [ ] Solder push buttons
 - [ ] Write higher level target position publisher (Imran and Saber)
-- [ ] Review simple collision avoidance algorithms (Hui)
+- [x] Review simple collision avoidance algorithms (Hui)
 - [ ] Model collision avoidance (Design) (Hui and Pedram)
 - [ ] Implement collision avoidance (Coding!) (Hui and Pedram)
 - [ ] Set up automatic logging and a matlab script(Pedram and Imran)
@@ -36,7 +36,7 @@ source devel/setup.bash
 The project includes the anchor position file *anchor_pos.yaml*. This needs to be copied to the *lps-ros* package.
 ```
 cd ~/catkin_ws/src
-cp el2425_bitcraze/anchor_pos.yaml lps-ros/data/anchor_pos.yaml
+cp el2425_bitcraze/data/anchor_pos.yaml lps-ros/data/anchor_pos.yaml
 ```
 
 ## Flying
