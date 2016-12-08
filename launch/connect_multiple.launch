@@ -4,9 +4,12 @@
   <arg name="uri0" default="radio://0/80/2M/E7E7E7E7BC" />
   <arg name="uri1" default="radio://0/100/2M"/>
 
-  <arg name="x" default="-1.0" />
-  <arg name="y" default="1.0" />
-  <arg name="z" default="1.0" />
+  <arg name="x1" default="-1.0" />
+  <arg name="y1" default="1.0" />
+  <arg name="z1" default="1.0" />
+  <arg name="x2" default="1.0" />
+  <arg name="y2" default="1.0" />
+  <arg name="z2" default="1.0" />
   <arg name="frame" default="base_link" />
 
   <node name="log_range" pkg="bitcraze_lps_estimator" type="log_range.py" />
@@ -14,7 +17,6 @@
   <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie2.urdf.xacro" />
   <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf.rviz"/>
-
 
   <group ns="crazyflie">
     <arg name="goal" />
@@ -35,14 +37,13 @@
 
     <node name="lps_efk_bridge" pkg="bitcraze_lps_estimator" type="lps_ekf_bridge.py" output="screen"/>
 
-    <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
-
     <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen">
-      <param name="x" value="$(arg x)" />
-      <param name="y" value="$(arg y)" />
-      <param name="z" value="$(arg z)" />
+      <param name="x" value="$(arg x1)" />
+      <param name="y" value="$(arg y1)" />
+      <param name="z" value="$(arg z1)" />
     </node>
     <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
   </group>
 
    <group ns="crazyflie2">
@@ -64,6 +65,13 @@
 
     <node name="lps_efk_bridge" pkg="bitcraze_lps_estimator" type="lps_ekf_bridge.py" output="screen"/>
 
+    <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen">
+      <param name="x" value="$(arg x2)" />
+      <param name="y" value="$(arg y2)" />
+      <param name="z" value="$(arg z2)" />
+    </node>
+    <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
   </group>
 
 
