@@ -26,8 +26,8 @@ if __name__ == "__main__":
     takeoff0 = rospy.ServiceProxy(takeoffURI0, Empty)
     land0 = rospy.ServiceProxy(landURI0, Empty)
 
-    takeoff1 = rospy.ServiceProxy(takeoffURI0, Empty)
-    land1 = rospy.ServiceProxy(landURI0, Empty)
+    takeoff1 = rospy.ServiceProxy(takeoffURI1, Empty)
+    land1 = rospy.ServiceProxy(landURI1, Empty)
 
     # Initial goal is already set from the position_handler, only need to takeoff.
     takeoff0()
