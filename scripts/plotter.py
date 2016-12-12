@@ -22,6 +22,17 @@ class Plotter:
         
         # Each plotted marker needs a unique id        
         self.markerId = 0
+        self.namespace = rospy.get_namespace()
+        if(self.namespace == "/crazyflie0/"):
+            self.cfMarkerColor = [1, 1, 1]
+            self.cfTrajColor = [1, 1, 1]
+            self.trajColor = [1, 1, 1]
+            self.targetColor = [1, 1, 1]
+        else:
+            self.cfMarkerColor = [1, 1, 1]
+            self.cfTrajColor = [1, 1, 1]
+            self.trajColor = [1, 1, 1]
+            self.targetColor = [1, 1, 1]
         
         # Plot is based on time step length, needs to initialize previous time step and step length
         self.prevTime = rospy.get_time()
@@ -37,10 +48,10 @@ class Plotter:
         rospy.Subscriber('crazyflie_position', Point, self.cfPositionCallback)
 
         # Publish on global rviz topics
-        self.markerPub = rospy.Publisher("/viz/target_points", MarkerArray, queue_size=1, latch=True)
-        self.trajPub = rospy.Publisher("/viz/trajectory", MarkerArray, queue_size=10, latch=True)
-        self.cfTrajPub = rospy.Publisher("/viz/cf_trajectory", MarkerArray, queue_size=10, latch=True)
-       
+        self.markerPub = rospy.Publisher("/viz/" + self.namespace + "target_points", MarkerArray, queue_size=1, latch=True)
+        self.trajPub = rospy.Publisher("/viz/" + self.namespace + "trajectory", MarkerArray, queue_size=10, latch=True)
+        self.cfTrajPub = rospy.Publisher("/viz/" + self.namespace + "cf_trajectory", MarkerArray, queue_size=10, latch=True)
+
         # Variables storing trajectories 
         self.trajectory = MarkerArray()
         self.goalMarkers = MarkerArray()
