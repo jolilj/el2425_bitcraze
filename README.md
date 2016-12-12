@@ -7,7 +7,7 @@
 - [ ] Model collision avoidance (Design) (Hui and Pedram)
 - [ ] Implement collision avoidance (Coding!) (Hui and Pedram)
 - [ ] Set up automatic logging and a matlab script(Pedram and Imran)
-- [ ] Control two crazyflies with one or two radios (Robert, Joakim, Caro)
+- [x] Control two crazyflies with one or two radios (Robert, Joakim, Caro)
 - [ ] Find optimal spot in the room for good position estimation (?) 
 - [x] Start writing project report (Caro)
 - [x] Started project review and revised project plan (Caro)
@@ -18,25 +18,18 @@
 - [x] Look up possible ways of simulating the drone
 
 ## Setup
-Clone this repo along with the crazyflie ROS repo and the Bitcraze Loco Positioning repo into your catkin workspace
+Clone this repo along with the crazyflie ROS repo and the forked (with minor changes) Bitcraze Loco Positioning repo into your catkin workspace
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/jolilj/el2425_bitcraze.git
+git clone https://github.com/jolilj/lps-ros.git
 git clone https://github.com/whoenig/crazyflie_ros.git
-git clone https://github.com/bitcraze/lps-ros.git
 ```
 Make and source
 ```
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
-```
-
-## Structure
-The project includes the anchor position file *anchor_pos.yaml*. This needs to be copied to the *lps-ros* package.
-```
-cd ~/catkin_ws/src
-cp el2425_bitcraze/data/anchor_pos.yaml lps-ros/data/anchor_pos.yaml
 ```
 
 ## Flying
@@ -61,7 +54,7 @@ Wait for a while for the filter to converge (check RViz).
 
 ### Step 3
 
-Run `fly.py` to start hovering at initial target position.
+Run `fly.py` to start hovering at initial target position. If you run it with a single crazyflie, specify '' as crazyflie id.
 
 ```
 rosrun el2425_bitcraze fly.py
