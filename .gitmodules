@@ -1,3 +1,3 @@
 [submodule "lps-ros"]
-	path = lps-ros
+	path = ../lps-ros
 	url = https://github.com/jolilj/lps-ros.git
