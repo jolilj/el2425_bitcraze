@@ -8,15 +8,8 @@ from std_srvs.srv import Empty
 # It might take a few seconds for the ekf to converge so wait before running this
 
 if __name__ == "__main__":
-    cfId = 0
-    if len(sys.argv) < 2:
-        # Which crazyflie?
-        cfId = raw_input("Which crazyflie?")
-    else:
-        cfId = sys.argv[1]
-
-    takeoffURI = "/crazyflie%s/takeoff" %(cfId) 
-    landURI = "/crazyflie%s/land" %(cfId) 
+    takeoffURI = "/crazyflie/takeoff" %(cfId) 
+    landURI = "/crazyflie/land" %(cfId) 
     
     # Wait for services to become available
     rospy.loginfo("waiting for services")
