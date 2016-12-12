@@ -75,7 +75,7 @@ The position can be changed by simply calling the `/set_target_position` service
 
 ### Step 5
 
-Stop hovering by pressing any key in the terminal where the fly.py script is running.
+Stop hovering by pressing `Enter` in the terminal where the fly.py script is running.
 
 ### Trajectory plotting
 The reference trajectory and the corresponding crazyflie trajectory is plotted in RViz. The crazyflie trajectory is plotted once a target position has been set (by calling `/set_target_position`).
@@ -86,11 +86,11 @@ The reference trajectory and the corresponding crazyflie trajectory is plotted i
 ### Radio addresses
 To change the radio address of the Crazyflie, use the CFclient (easiest through the [virtual machine](https://www.bitcraze.io/getting-started-with-the-crazyflie-2-0/#inst-comp) to avoid installing a lot of dependencies). Instructions [here](https://wiki.bitcraze.io/doc:crazyflie:client:pycfclient:index#firmware_configuration). Go to firmware configuration section.
 
-Crazyflie 1 URI:
-`radio://0/80/2M`
+Crazyflie 0 URI:
+`radio://0/125/2M/E7E7E7E7E7`
 
-Crazyflie 2 URI:
-`radio://0/125/2M`
+Crazyflie 1 URI:
+`radio://0/125/2M/E7E7E7E7BC`
 
 It might be possible to change the config file in `crazyflie-firmware/src/config/config.h`.
 We haven't tried this though.
