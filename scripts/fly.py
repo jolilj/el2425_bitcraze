@@ -8,7 +8,7 @@ from std_srvs.srv import Empty
 # It might take a few seconds for the ekf to converge so wait before running this
 
 if __name__ == "__main__":
-    cfId = 1
+    cfId = 0
     if len(sys.argv) < 2:
         # Which crazyflie?
         cfId = raw_input("Which crazyflie?")
