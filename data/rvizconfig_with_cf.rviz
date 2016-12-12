@@ -75,7 +75,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /crazyflie/anchors_markers
+      Marker Topic: /crazyflie0/anchors_markers
       Name: MarkerArray
       Namespaces:
         "": true
@@ -83,8 +83,16 @@ Visualization Manager:
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /crazyflie/crazyflie_marker
-      Name: Marker
+      Marker Topic: /crazyflie0/marker
+      Name: Crazyflie 0
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /crazyflie1/marker
+      Name: Crazyflie 1
       Namespaces:
         "": true
       Queue Size: 100

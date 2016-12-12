@@ -1,34 +1,36 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="uri0" default="radio://0/80/2M/E7E7E7E7BC" />
-  <arg name="uri1" default="radio://0/100/2M"/>
+  <arg name="uri0" default="radio://0/125/2M/E7E7E7E7BC" />
+  <arg name="uri1" default="radio://0/125/2M"/>
 
-  <arg name="x1" default="-1.0" />
+  <arg name="x0" default="0.0" />
+  <arg name="y0" default="1.0" />
+  <arg name="z0" default="1.0" />
+  <arg name="x1" default="1.0" />
   <arg name="y1" default="1.0" />
   <arg name="z1" default="1.0" />
-  <arg name="x2" default="1.0" />
-  <arg name="y2" default="1.0" />
-  <arg name="z2" default="1.0" />
   <arg name="frame" default="base_link" />
+
 
   <node name="log_range" pkg="bitcraze_lps_estimator" type="log_range.py" />
 
   <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie2.urdf.xacro" />
+
   <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf.rviz"/>
 
-  <group ns="crazyflie1">
-    <param name="x" value="$(arg x1)" />
-    <param name="y" value="$(arg y1)" />
-    <param name="z" value="$(arg z1)" />
+  <group ns="crazyflie0">
+    <param name="x" value="$(arg x0)" />
+    <param name="y" value="$(arg y0)" />
+    <param name="z" value="$(arg z0)" />
     <param name="cfId" value="0" />
 
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
       <param name="uri" value="$(arg uri0)" />
-      <param name="tf_prefix" value="crazyflie1" />
+      <param name="tf_prefix" value="crazyflie0" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
         genericLogTopicFrequencies: [30, 30]
@@ -46,7 +48,7 @@
     <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
   </group>
 
-   <group ns="crazyflie2">
+   <group ns="crazyflie1">
     <param name="x" value="$(arg x1)" />
     <param name="y" value="$(arg y1)" />
     <param name="z" value="$(arg z1)" />
@@ -56,7 +58,7 @@
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
       <param name="uri" value="$(arg uri1)" />
-      <param name="tf_prefix" value="crazyflie2" />
+      <param name="tf_prefix" value="crazyflie1" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
         genericLogTopicFrequencies: [30, 30]
