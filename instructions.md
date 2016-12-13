@@ -9,11 +9,15 @@ Secondly, we have implemented a higher level abstraction from this. The user ins
 
 ### Step 1
 
-Call custom launch file connect.py that takes a channel as input (defaults to ch:=125) as well as initial target position
-
+Call custom launch file connect.launch that takes a channel and address ending (the last two hexadecimal numbers) as input (defaults to `ch:=125 address:='E7'`) as well as initial target position (defaults to `x0:=-1.0 y0:=1.0 z:=1.5`). E.g.
 ```
-roslaunch el2425_bitcraze connect.launch ch:=channel x:=x0 y:=y0 z:=z0
+roslaunch el2425_bitcraze connect.launch
 ```
+to hover with crazyflie0  at -1.0 1.0 1.5 or
+```
+roslaunch el2425_bitcraze connect.launch address:='BC' x0:=1.0 y0:=1.0 z0:=1.5
+```
+to hover with crazyflie1 at 1.0 1.0 1.5.
 
 ### Step 2
 
