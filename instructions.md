@@ -51,6 +51,22 @@ Stop hovering by pressing `Enter` in the terminal where the fly.py script is run
 ### Trajectory plotting
 The reference trajectory and the corresponding crazyflie trajectory is plotted in RViz. The crazyflie trajectory is plotted once a target position has been set (by calling `/set_target_position`).
 
+## Flying Drone in a circle
+
+Follow the step 1 to step 3 of Flying as described above.
+
+### Step 4
+
+Open the 'follow_traj.py' in the editor and make sure that the variables self.x_init, self.y_init and self.z_init must be equal or close enough to x0, y0 and z0, the points that you specify while launching the connect.launch in step1. 
+
+Now run 'follow_traj.py' to fly the UAV in a circle. 
+```
+rosrun el2425_bitcraze follow_traj.py X r
+```
+where,
+X = 'c' if you want to fly the drone in a circle and
+r = radius of the circle and r<=0.75
+
 ## Multiple Flight
 The multiple flight is very similar to flying with one crazyflie
 

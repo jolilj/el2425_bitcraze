@@ -9,20 +9,17 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Point
 
 class Trajectory:
-    def __init__(self):
+    def __init__(self, radius):
         self.msg = PoseStamped()
         self.msg.header.seq = 0
         self.msg.header.stamp = rospy.Time.now()
         self.point = Point()
         self.rate = rospy.Rate(6) # 3hz     
-        self.x_init = 0
-        self.y_init = 0
-        self.z_init = 0
+
         # Subscribe to the topics
         rospy.Subscriber('/crazyflie/crazyflie_position', Point, self.positionCallback)   # Position of crazyfile
         self.callTargetPositionService = rospy.ServiceProxy('/crazyflie/set_target_position', SetTargetPosition)
 
- 
     def way_points_circle(self,r):
 
 
@@ -44,8 +41,10 @@ class Trajectory:
             y_new = y_cent + r*math.sin(theta_rad)
             z_new = z_cent
             self.callTargetPositionService(x_new, y_new, z_new)
+
             theta = theta + 5       #10
             #print "Point: %f" %(self.point.x)
+
             #rate.sleep()
             if theta >= 360:
                 theta = 0
@@ -66,6 +65,7 @@ class Trajectory:
 
 if __name__ == "__main__":
     rospy.init_node('Trajectory')
+
     traj = Trajectory();
     type_of_traj = (sys.argv[1])
     if type_of_traj == 'c':
