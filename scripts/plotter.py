@@ -24,17 +24,17 @@ class Plotter:
         self.namespace = rospy.get_namespace()
 
         # Define colors
-        if(self.namespace == "/crazyflie0/"):
+        if(self.namespace == "/crazyflie0/" or self.namespace == "/crazyflie"):
             self.cfId = 0
-            self.cfMarkerColor = [188.0/255, 218.0/255, 11.0/255]
+            self.cfMarkerColor = [169.0/255, 248.0/255, 105.0/255]
             self.cfTrajColor = self.cfMarkerColor
-            self.trajColor = [248.0/255, 165.0/255, 69.0/255]
+            self.trajColor =  [71.0/255, 150.0/255, 0.0/255]
             self.targetColor = self.trajColor
         else:
             self.cfId = 1
-            self.cfMarkerColor = [221.0/255, 2.0/255, 119.0/255]
+            self.cfMarkerColor = [221.0/255, 166.0/255, 209.0/255]
             self.cfTrajColor = self.cfMarkerColor
-            self.trajColor = [189.0/255, 20.0/255, 237.0/255]
+            self.trajColor = [166.0/255, 1.0/255, 145.0/255]
             self.targetColor = self.trajColor
 
         self.anchorColor = [1, 0, 0]
