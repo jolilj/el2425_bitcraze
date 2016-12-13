@@ -25,6 +25,6 @@ if __name__ == "__main__":
     takeoff()
 
     #Wait for user to press any key and then land
-    raw_input("Press any key to land")
+    raw_input("Press enter to land")
     land()
 
