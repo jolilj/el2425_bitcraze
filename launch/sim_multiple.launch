@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="x0" default="0.0" />
+    <arg name="y0" default="1.5" />
+    <arg name="z0" default="1.0" />
+    <arg name="x1" default="1.0" />
+    <arg name="y1" default="1.5" />
+    <arg name="z1" default="1.0" />
+    <arg name="frame" default="base_link" />
+
+    <node name="rviz" pkg="rviz" type="rviz"
+        args="-d $(find el2425_bitcraze)/data/rvizconfig_sim_multiple.rviz"/>
+
+    <group ns="crazyflie0">
+        <param name="x" value="$(arg x0)" />
+        <param name="y" value="$(arg y0)" />
+        <param name="z" value="$(arg z0)" />
+        <rosparam command="load" file="$(find el2425_bitcraze)/data/anchor_pos.yaml" />
+
+        <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen"/>
+        <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    </group>
+
+    <group ns="crazyflie1">
+        <param name="x" value="$(arg x1)" />
+        <param name="y" value="$(arg y1)" />
+        <param name="z" value="$(arg z1)" />
+        <rosparam command="load" file="$(find el2425_bitcraze)/data/anchor_pos.yaml" />
+
+        <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
+        <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    </group>
+
+
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"
+        args="1 0 0 0 0 0 1 world lps 100" />
+</launch>
