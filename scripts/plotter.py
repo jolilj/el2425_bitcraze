@@ -15,13 +15,29 @@ from geometry_msgs.msg import Point
 #   * target_pos - the user specified target position
 #   * crazyflie_position - the estimated position of the crazyflie
 # and publish the coresponding markers to rviz.
-# It adds functionality to the existing rviz configuration set up by the lps-ros package
 
 class Plotter:
     def __init__(self, x, y, z):
         
-        # Each plotted marker needs a unique id        
-        self.markerId = 0
+        # Each plotted marker needs a unique id, 0 and 1 reserved for crazyflies        
+        self.markerId = 2
+        self.namespace = rospy.get_namespace()
+
+        # Define colors
+        if(self.namespace == "/crazyflie0/"):
+            self.cfId = 0
+            self.cfMarkerColor = [188.0/255, 218.0/255, 11.0/255]
+            self.cfTrajColor = self.cfMarkerColor
+            self.trajColor = [248.0/255, 165.0/255, 69.0/255]
+            self.targetColor = self.trajColor
+        else:
+            self.cfId = 1
+            self.cfMarkerColor = [221.0/255, 2.0/255, 119.0/255]
+            self.cfTrajColor = self.cfMarkerColor
+            self.trajColor = [189.0/255, 20.0/255, 237.0/255]
+            self.targetColor = self.trajColor
+
+        self.anchorColor = [1, 0, 0]
         
         # Plot is based on time step length, needs to initialize previous time step and step length
         self.prevTime = rospy.get_time()
@@ -31,16 +47,18 @@ class Plotter:
         # The cf trajectory should therefore not be plotted until the first user specified target point is published
         self.shouldPlotCF = False
         
-        # Subscribe to topics
-        rospy.Subscriber("/crazyflie/goal", PoseStamped, self.goalCallback)
-        rospy.Subscriber('/crazyflie/target_pos', Array, self.targetPosCallback)
-        rospy.Subscriber('/crazyflie/crazyflie_position', Point, self.cfPositionCallback)
+        # Subscribe to topics in relative namespace (that is for a specific crazyflie)
+        rospy.Subscriber('goal', PoseStamped, self.goalCallback)
+        rospy.Subscriber('target_pos', Array, self.targetPosCallback)
+        rospy.Subscriber('crazyflie_position', Point, self.cfPositionCallback)
 
-        # Publish on rviz topics
-        self.markerPub = rospy.Publisher("/viz/target_points", MarkerArray, queue_size=1, latch=True)
-        self.trajPub = rospy.Publisher("/viz/trajectory", MarkerArray, queue_size=10, latch=True)
-        self.cfTrajPub = rospy.Publisher("/viz/cf_trajectory", MarkerArray, queue_size=10, latch=True)
-       
+        # Publish on global rviz topics
+        self.targetPosPub = rospy.Publisher("/viz" + self.namespace + "target_points", MarkerArray, queue_size=1, latch=True)
+        self.trajPub = rospy.Publisher("/viz" + self.namespace + "trajectory", MarkerArray, queue_size=10, latch=True)
+        self.cfTrajPub = rospy.Publisher("/viz" + self.namespace + "cf_trajectory", MarkerArray, queue_size=10, latch=True)
+        self.cfPosPub = rospy.Publisher("/viz" + self.namespace + "cf_pos", Marker, queue_size=10, latch=True)
+        self.anchorPub = rospy.Publisher("/viz/anchor_pos", MarkerArray, queue_size=10, latch=True)
+
         # Variables storing trajectories 
         self.trajectory = MarkerArray()
         self.goalMarkers = MarkerArray()
@@ -48,13 +66,20 @@ class Plotter:
     
         # Plot initial position
         self.plotTrajectory(x,y,z)
+        
+        # Plot anchor positions
+        self.plotAnchors(self.getAnchorsPos())
     
     # ======= TOPIC CALLBACKS ================================================== 
     def cfPositionCallback(self, point):
+        # Plot trajectory
         time = rospy.get_time()
         if self.shouldPlotCF and (time - self.prevTime) > self.posUpdateTimeStep:
             self.prevTime = time
             self.plotCFTrajectory(point.x, point.y, point.z)
+    
+        # Plot cf position
+        self.plotCFPosition(point.x, point.y, point.z)
             
 
     def goalCallback(self, goal):
@@ -81,25 +106,36 @@ class Plotter:
     # ====================================================================
 
     # =========== PUBLISH MARKERS ========================================
+    def plotCFPosition(self, x,y,z):
+        self.markerId = self.markerId + 1
+        marker = self.initMarker(x, y, z)
+        marker.id = self.cfId
+        marker.color.r = self.cfTrajColor[0]
+        marker.color.g = self.cfTrajColor[1] 
+        marker.color.b = self.cfTrajColor[2]
+        marker.color.a = 1
+
+        self.cfPosPub.publish(marker)
+
     def plotTargetPositions(self,x,y,z):
         self.markerId = self.markerId + 1
         marker = self.initMarker(x, y, z)
         marker.id = self.markerId
-        marker.color.r = 0
-        marker.color.g = 0
-        marker.color.b = 1
+        marker.color.r = self.targetColor[0]
+        marker.color.g = self.targetColor[1]
+        marker.color.b = self.targetColor[2]
         marker.color.a = 1
 
         self.goalMarkers.markers.append(marker)
-        self.markerPub.publish(self.goalMarkers)
+        self.targetPosPub.publish(self.goalMarkers)
 
     def plotCFTrajectory(self, x, y, z):
         self.markerId = self.markerId + 1
         marker = self.initMarker(x, y, z, typee=2, scale=0.05)
         marker.id = self.markerId
-        marker.color.r = 0
-        marker.color.g = 1 
-        marker.color.b = 0
+        marker.color.r = self.cfTrajColor[0]
+        marker.color.g = self.cfTrajColor[1] 
+        marker.color.b = self.cfTrajColor[2]
         marker.color.a = 1
 
         self.cfTrajectory.markers.append(marker)
@@ -109,14 +145,29 @@ class Plotter:
         self.markerId = self.markerId + 1
         marker = self.initMarker(x, y, z, typee=2, scale=0.05)
         marker.id = self.markerId 
-        marker.color.r = 0
-        marker.color.g = 0
-        marker.color.b = 1
+        marker.color.r = self.trajColor[0]
+        marker.color.g = self.trajColor[1]
+        marker.color.b = self.trajColor[2]
         marker.color.a = 1
         self.trajectory.markers.append(marker) 
         self.trajPub.publish(self.trajectory)
-    #======================================================================
 
+    def plotAnchors(self, anchorPos):
+        markerArray = MarkerArray()
+        for i in anchorPos:
+            self.markerId = self.markerId + 1
+            marker = self.initMarker(anchorPos[i][0], anchorPos[i][1], anchorPos[i][2])
+            marker.id = self.markerId 
+            marker.color.r = self.anchorColor[0]
+            marker.color.g = self.anchorColor[1]
+            marker.color.b = self.anchorColor[2]
+            marker.color.a = 1
+            markerArray.markers.append(marker) 
+
+        self.anchorPub.publish(markerArray)
+
+    #======================================================================
+    # Helper functions
     def initMarker(self, x,y,z, typee=1, scale=0.1):
         marker = Marker()
 
@@ -140,11 +191,20 @@ class Plotter:
 
         return marker
 
+    def getAnchorsPos(self):
+        n = rospy.get_param("n_anchors")
+        anchorsPos = {}
+
+        for i in range(n):
+            anchorsPos[i] = rospy.get_param("anchor{}_pos".format(i))
+
+        return anchorsPos
+
 # ============= MAIN LOOP ===================================================
 if __name__ == "__main__":
     rospy.init_node("plotter")
-    x = rospy.get_param("/crazyflie/position_handler/x")
-    y = rospy.get_param("/crazyflie/position_handler/y")
-    z = rospy.get_param("/crazyflie/position_handler/z")
+    x = rospy.get_param("x")
+    y = rospy.get_param("y")
+    z = rospy.get_param("z")
     sim = Plotter(x,y,z)
     rospy.spin()
