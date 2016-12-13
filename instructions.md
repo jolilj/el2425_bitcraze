@@ -54,7 +54,7 @@ The reference trajectory and the corresponding crazyflie trajectory is plotted i
 ## Multiple Flight
 The multiple flight is very similar to flying with one crazyflie
 
-## Step 1
+### Step 1
 Launch `connect_multiple.launch` wich takes the following arguments with specified default values
 ```
 ch0:=125
@@ -73,19 +73,19 @@ E.g.
 roslaunch el2425_bitcraze connect_multiple.launch
 ```
 to hover with crazyflie0 at `0.0 1.5 1.5` and crazyflie1 at `1.0 1.5 1.5`. 
-## Step 2
+### Step 2
 Wait for filter convergence, check RViz
 
-## Step 3
+### Step 3
 Run `fly_multiple.py`
 ```
 rosrun el2425_bitcraze fly_multiple.py
 ```
-## Step 4
-Call `set_target_position` in corresponding namespace to publish a new target position for the crazyflies. To send crazyflie0 to `1.0 2.0 1.8` and crazyflie1 to `2.0 2.0 1.8` one would write (in a new terminal tab)
+### Step 4
+Call `set_target_position` in corresponding namespace to publish a new target position for the crazyflies. To send crazyflie0 to `1.0 2.0 #1.8` and crazyflie1 to `2.0 2.0 1.8` one would write (in a new terminal tab)
 ```
 rosservice call /crazyflie0/set_target_position 1.0 2.0 1.8
 rosservice call /crazyflie1/set_target_position 2.0 2.0 1.8
 ```
-# Step 5
+## Step 5
 Switch to tab where `fly_multiple` is running and press `Enter` to land.
