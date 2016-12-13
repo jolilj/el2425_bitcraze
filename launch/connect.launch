@@ -1,50 +1,46 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="ch" default="80" />
-  <arg name="x" default="-1.0" />
-  <arg name="y" default="1.0" />
-  <arg name="z" default="1.0" />
-  <arg name="frame" default="base_link" />
+    <arg name="ch" default="125" />
+    <arg name="address" default="E7E7E7E7E7" />
+    <arg name="x" default="-1.0" />
+    <arg name="y" default="1.0" />
+    <arg name="z" default="1.0" />
+    <arg name="frame" default="base_link" />
 
-  <node name="log_range" pkg="bitcraze_lps_estimator" type="log_range.py" />
+    <node name="log_range" pkg="bitcraze_lps_estimator" type="log_range.py" />
 
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie2.urdf.xacro" />
-  <node name="rviz" pkg="rviz" type="rviz"
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie2.urdf.xacro" />
+    <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf.rviz"/>
 
+    <group ns="crazyflie">
+        <param name="x" value="$(arg x)" />
+        <param name="y" value="$(arg y)" />
+        <param name="z" value="$(arg z)" />
+        <rosparam command="load" file="$(find el2425_bitcraze)/data/anchor_pos.yaml" />
 
-  <group ns="crazyflie">
-    <arg name="goal" />
-    <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
+        <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
+            <param name="uri" value="radio://0/$(arg ch)/2M/$(arg address)"/>
+            <param name="tf_prefix" value="crazyflie" />
+            <rosparam>
+                genericLogTopics: ["log_kfpos", "log_ranges"]
+                genericLogTopicFrequencies: [30, 30]
+                genericLogTopic_log_kfpos_Variables: ["kalman.stateX", "kalman.stateY", "kalman.stateZ"]
+                genericLogTopic_log_ranges_Variables: ["ranging.distance1", "ranging.distance2", "ranging.distance3", "ranging.distance4", "ranging.distance5", "ranging.distance6", "ranging.state"]
+            </rosparam>
+        </node>
 
-    <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="radio://0/$(arg ch)/2M" />
-      <param name="tf_prefix" value="crazyflie" />
-      <rosparam>
-        genericLogTopics: ["log_kfpos", "log_ranges"]
-        genericLogTopicFrequencies: [30, 30]
-        genericLogTopic_log_kfpos_Variables: ["kalman.stateX", "kalman.stateY", "kalman.stateZ"]
-        genericLogTopic_log_ranges_Variables: ["ranging.distance1", "ranging.distance2", "ranging.distance3", "ranging.distance4", "ranging.distance5", "ranging.distance6", "ranging.state"]
-      </rosparam>
-    </node>
+        <node name="controller_bridge" pkg="bitcraze_lps_estimator" type="crazyflie_controller_bridge.py" output="screen"/>
 
-    <node name="controller_bridge" pkg="bitcraze_lps_estimator" type="crazyflie_controller_bridge.py" output="screen"/>
+        <node name="lps_efk_bridge" pkg="bitcraze_lps_estimator" type="lps_ekf_bridge.py" output="screen"/>
 
-    <node name="lps_efk_bridge" pkg="bitcraze_lps_estimator" type="lps_ekf_bridge.py" output="screen"/>
-
-    <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
-
-    <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen">
-      <param name="x" value="$(arg x)" />
-      <param name="y" value="$(arg y)" />
-      <param name="z" value="$(arg z)" />
-    </node>
-    <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
-  </group>
+        <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
+        <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    </group>
 
 
-  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"
         args="1 0 0 0 0 0 1 world lps 100" />
 
-  <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch" />
+    <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch" />
 </launch>

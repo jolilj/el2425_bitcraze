@@ -6,8 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Crazyflie1
-        - /AnchorPos1
+        - /MarkerArray1
       Splitter Ratio: 0.5
     Tree Height: 467
   - Class: rviz/Selection
@@ -50,42 +49,74 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Class: rviz/MarkerArray
+    - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /viz/crazyflie/trajectory
-      Name: PredictedTrajectory
-      Namespaces:
-        "": true
-      Queue Size: 100
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /viz/crazyflie/target_points
-      Name: TargetPoints
+      Marker Topic: /viz/crazyflie0/cf_pos
+      Name: Crazyflie0
       Namespaces:
         {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /viz/crazyflie/cf_trajectory
-      Name: CF Trajectory
+      Marker Topic: /viz/crazyflie0/trajectory
+      Name: PredictedTrajectory0
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /viz/crazyflie0/target_points
+      Name: TargetPoints0
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /viz/crazyflie0/cf_trajectory
+      Name: CF Trajectory0
       Namespaces:
         {}
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /viz/crazyflie/cf_pos
-      Name: Crazyflie
+      Marker Topic: /viz/crazyflie1/cf_pos
+      Name: Crazyflie1
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /viz/crazyflie1/trajectory
+      Name: PredictedTrajectory1
       Namespaces:
         "": true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
+      Marker Topic: /viz/crazyflie1/target_points
+      Name: TargetPoints1
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /viz/crazyflie1/cf_trajectory
+      Name: CF Trajectory1
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
       Marker Topic: /viz/anchor_pos
-      Name: AnchorPos
+      Name: MarkerArray
       Namespaces:
         "": true
       Queue Size: 100
@@ -147,5 +178,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1200
-  X: 226
+  X: 70
   Y: 14

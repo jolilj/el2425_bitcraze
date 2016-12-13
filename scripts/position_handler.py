@@ -19,8 +19,8 @@ from std_msgs.msg import Float32MultiArray as Array
 #         this has to be small enough so that we don't get the large acceleration change due to a large error in the PID controller
 
 # ==== TWEAK PARAMS ====
-deltaT = 0.2
-k = 0.05
+deltaT = 0.2    # 0.2
+vel = 0.5
 class PositionHandler:
     def __init__(self, x, y, z):
         # The msg that will be published on the goal topic
@@ -33,7 +33,7 @@ class PositionHandler:
         self.referenceMsg.pose.position.z = z
 
         self.targetPosition = [x,y,z]
-        self.deltaT = 0.2
+        self.deltaT = deltaT   # 0.2
 
         yaw = 0
         quaternion = tf.transformations.quaternion_from_euler(0, 0, yaw)
@@ -42,10 +42,10 @@ class PositionHandler:
         self.referenceMsg.pose.orientation.z = quaternion[2]
         self.referenceMsg.pose.orientation.w = quaternion[3]
 
-        self.rate = rospy.Rate(5)
-        self.goalPub = rospy.Publisher("/crazyflie/goal", PoseStamped, queue_size=1)
-        self.targetPosPub = rospy.Publisher("/crazyflie/target_pos", Array, queue_size=1, latch=True)
-        self.setGoalService = rospy.Service('/crazyflie/set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
+        self.rate = rospy.Rate(20)
+        self.goalPub = rospy.Publisher("goal", PoseStamped, queue_size=1)
+        self.targetPosPub = rospy.Publisher("target_pos", Array, queue_size=1, latch=True)
+        self.setGoalService = rospy.Service('set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
         self.isRunning = False
    
     # ====== Target Position Service Callback ==== 
@@ -55,7 +55,7 @@ class PositionHandler:
     #     * update the internal target position variable used when calculating the intermediate goals 
     def targetPositionServiceCallback(self, req):
         self.targetPosition = [req.x, req.y, req.z]
-        msg = Array()
+	msg = Array()
         msg.data = self.targetPosition
         self.targetPosPub.publish(msg)
         return()
@@ -75,7 +75,7 @@ class PositionHandler:
         delta_norm = (math.sqrt(math.pow(delta_x,2)+math.pow(delta_y,2)+math.pow(delta_z,2)))
         k = 0
         if not delta_norm == 0:
-            k = 0.02/(self.deltaT*delta_norm)
+            k = vel*self.deltaT/delta_norm
 
         x_new = x_old+k*delta_x
         y_new = y_old+k*delta_y
@@ -108,9 +108,9 @@ class PositionHandler:
 
 if __name__ == "__main__":
     rospy.init_node("position_handler")
-    x = rospy.get_param("~x")
-    y = rospy.get_param("~y")
-    z = rospy.get_param("~z")
+    x = rospy.get_param("x")
+    y = rospy.get_param("y")
+    z = rospy.get_param("z")
 
     posHandler = PositionHandler(x,y,z)
     posHandler.run()

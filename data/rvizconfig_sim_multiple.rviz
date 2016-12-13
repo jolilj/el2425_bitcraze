@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Crazyflie1
         - /AnchorPos1
       Splitter Ratio: 0.5
     Tree Height: 467
@@ -52,34 +51,34 @@ Visualization Manager:
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /viz/crazyflie/trajectory
-      Name: PredictedTrajectory
+      Marker Topic: /viz/crazyflie0/trajectory
+      Name: PredictedTrajectory0
       Namespaces:
         "": true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /viz/crazyflie/target_points
-      Name: TargetPoints
+      Marker Topic: /viz/crazyflie0/target_points
+      Name: TargetPoints0
       Namespaces:
         {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /viz/crazyflie/cf_trajectory
-      Name: CF Trajectory
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /viz/crazyflie/cf_pos
-      Name: Crazyflie
+      Marker Topic: /viz/crazyflie1/trajectory
+      Name: PredictedTrajectory1
       Namespaces:
         "": true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /viz/crazyflie1/target_points
+      Name: TargetPoints1
+      Namespaces:
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -147,5 +146,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1200
-  X: 226
+  X: 60
   Y: 14
