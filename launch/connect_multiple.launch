@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="uri0" default="radio://0/125/2M/E7E7E7E7BC" />
-  <arg name="uri1" default="radio://0/125/2M"/>
+
+  <arg name="ch0" default="125" />
+  <arg name="address0" default="E7" />
+  <arg name="ch1" default="125" />
+  <arg name="address1" default="BC" />
 
   <arg name="x0" default="0.0" />
   <arg name="y0" default="1.5" />
-  <arg name="z0" default="1.0" />
+  <arg name="z0" default="1.5" />
   <arg name="x1" default="1.0" />
   <arg name="y1" default="1.5" />
-  <arg name="z1" default="1.0" />
+  <arg name="z1" default="1.5" />
   <arg name="frame" default="base_link" />
 
 
@@ -29,7 +32,7 @@
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="$(arg uri0)" />
+      <param name="uri" value="radio://0/$(arg ch0)/2M/E7E7E7E7$(arg address0)"/>
       <param name="tf_prefix" value="crazyflie0" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
@@ -56,7 +59,7 @@
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="$(arg uri1)" />
+      <param name="uri" value="radio://0/$(arg ch1)/2M/E7E7E7E7$(arg address1)"/>
       <param name="tf_prefix" value="crazyflie1" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]

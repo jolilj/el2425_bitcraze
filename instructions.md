@@ -9,11 +9,15 @@ Secondly, we have implemented a higher level abstraction from this. The user ins
 
 ### Step 1
 
-Call custom launch file connect.py that takes a channel as input (defaults to ch:=125) as well as initial target position
-
+Call custom launch file connect.launch that takes a channel and address ending (the last two hexadecimal numbers) as input (defaults to `ch:=125 address:='E7'`) as well as initial target position (defaults to `x0:=0.0 y0:=1.5 z:=1.5`). E.g.
 ```
-roslaunch el2425_bitcraze connect.launch ch:=channel x:=x0 y:=y0 z:=z0
+roslaunch el2425_bitcraze connect.launch
 ```
+to hover with crazyflie0  at `-1.0 1.0 1.5` or
+```
+roslaunch el2425_bitcraze connect.launch address:='BC' x0:=1.0 y0:=1.0 z0:=1.5
+```
+to hover with crazyflie1 at `1.0 1.0 1.5`.
 
 ### Step 2
 
@@ -62,3 +66,42 @@ rosrun el2425_bitcraze follow_traj.py X r
 where,
 X = 'c' if you want to fly the drone in a circle and
 r = radius of the circle and r<=0.75
+
+## Multiple Flight
+The multiple flight is very similar to flying with one crazyflie
+
+### Step 1
+Launch `connect_multiple.launch` wich takes the following arguments with specified default values
+```
+ch0:=125
+address0:='E7'
+x0:=0.0
+y0:=1.5
+z0:=1.5
+ch1:=125
+address1:='BC'
+x1:=1.0
+y1:=1.5
+z1:=1.5
+```
+E.g.
+```
+roslaunch el2425_bitcraze connect_multiple.launch
+```
+to hover with crazyflie0 at `0.0 1.5 1.5` and crazyflie1 at `1.0 1.5 1.5`. 
+### Step 2
+Wait for filter convergence, check RViz
+
+### Step 3
+Run `fly_multiple.py`
+```
+rosrun el2425_bitcraze fly_multiple.py
+```
+### Step 4
+Call `set_target_position` in corresponding namespace to publish a new target position for the crazyflies. To send crazyflie0 to `1.0 2.0 1.8` and crazyflie1 to `2.0 2.0 1.8` one would write (in a new terminal tab)
+```
+rosservice call /crazyflie0/set_target_position 1.0 2.0 1.8
+rosservice call /crazyflie1/set_target_position 2.0 2.0 1.8
+```
+## Step 5
+Switch to tab where `fly_multiple` is running and press `Enter` to land.
