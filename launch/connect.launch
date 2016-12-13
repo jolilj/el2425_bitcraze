@@ -4,7 +4,7 @@
     <arg name="address" default="E7E7E7E7E7" />
     <arg name="x" default="-1.0" />
     <arg name="y" default="1.0" />
-    <arg name="z" default="1.0" />
+    <arg name="z" default="1.5" />
     <arg name="frame" default="base_link" />
 
     <node name="log_range" pkg="bitcraze_lps_estimator" type="log_range.py" />

@@ -6,10 +6,10 @@
 
   <arg name="x0" default="0.0" />
   <arg name="y0" default="1.5" />
-  <arg name="z0" default="1.0" />
+  <arg name="z0" default="1.5" />
   <arg name="x1" default="1.0" />
   <arg name="y1" default="1.5" />
-  <arg name="z1" default="1.0" />
+  <arg name="z1" default="1.5" />
   <arg name="frame" default="base_link" />
 
 
