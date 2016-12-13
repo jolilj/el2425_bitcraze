@@ -9,15 +9,15 @@ Secondly, we have implemented a higher level abstraction from this. The user ins
 
 ### Step 1
 
-Call custom launch file connect.launch that takes a channel and address ending (the last two hexadecimal numbers) as input (defaults to `ch:=125 address:='E7'`) as well as initial target position (defaults to `x0:=-1.0 y0:=1.0 z:=1.5`). E.g.
+Call custom launch file connect.launch that takes a channel and address ending (the last two hexadecimal numbers) as input (defaults to `ch:=125 address:='E7'`) as well as initial target position (defaults to `x0:=0.0 y0:=1.5 z:=1.5`). E.g.
 ```
 roslaunch el2425_bitcraze connect.launch
 ```
-to hover with crazyflie0  at -1.0 1.0 1.5 or
+to hover with crazyflie0  at `-1.0 1.0 1.5` or
 ```
 roslaunch el2425_bitcraze connect.launch address:='BC' x0:=1.0 y0:=1.0 z0:=1.5
 ```
-to hover with crazyflie1 at 1.0 1.0 1.5.
+to hover with crazyflie1 at `1.0 1.0 1.5`.
 
 ### Step 2
 
@@ -50,3 +50,35 @@ Stop hovering by pressing `Enter` in the terminal where the fly.py script is run
 
 ### Trajectory plotting
 The reference trajectory and the corresponding crazyflie trajectory is plotted in RViz. The crazyflie trajectory is plotted once a target position has been set (by calling `/set_target_position`).
+
+## Multiple Flight
+The multiple flight is very similar to flying with one crazyflie
+
+## Step 1
+Launch `connect_multiple.launch` wich takes the following arguments with specified default values
+```
+ch0:=125
+address0:='E7'
+x0:=0.0
+y0:=1.5
+z0:=1.5
+ch1:=125
+address1:='BC'
+x1:=1.0
+y1:=1.5
+z1:=1.5
+```
+E.g.
+```
+roslaunch el2425_bitcraze connect_multiple.launch
+```
+to hover with crazyflie0 at `0.0 1.5 1.5` and crazyflie1 at `1.0 1.5 1.5`. 
+## Step 2
+Wait for filter convergence, check RViz
+
+## Step 3
+Run `fly_multiple.py`
+```
+rosrun el2425_bitcraze fly_multiple.py
+```
+Press `Enter` to land.
