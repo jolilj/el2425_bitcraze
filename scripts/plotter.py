@@ -34,7 +34,7 @@ class Plotter:
             self.cfId = 1
             self.cfMarkerColor = [221.0/255, 2.0/255, 119.0/255]
             self.cfTrajColor = self.cfMarkerColor
-            self.trajColor = [169.0, 0.0/255, 217.0/255]
+            self.trajColor = [189.0/255, 20.0/255, 237.0/255]
             self.targetColor = self.trajColor
 
         self.anchorColor = [1, 0, 0]
