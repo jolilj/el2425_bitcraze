@@ -3,7 +3,7 @@
 ## TODO
 
 
-- [ ] Write `fly_multiple.py` script
+- [x] Write `fly_multiple.py` script
 - [ ] Finish second project review
 - [ ] Getting seriously started with project report
 - [ ] Implement a position swapping script
