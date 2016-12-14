@@ -74,5 +74,5 @@ if __name__ == "__main__":
     if type_of_traj == 'l':
         x_line = float(sys.argv[2])
         y_line = float(sys.argv[3])
-        z_line = float(sys.argv[3])
+        z_line = float(sys.argv[4])
         traj.way_points_line(x_line,y_line,z_line)
