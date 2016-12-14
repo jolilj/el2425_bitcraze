@@ -5,7 +5,7 @@
 
 - [x] Write `fly_multiple.py` script (Joakim)
 - [x] Finish second project review (Caro)
-- [ ] Getting seriously started with project report (Saber)
+- [ ] Getting seriously started with project report (Saber) (link: https://www.sharelatex.com/project/5847ccf8b537eb9968b58a7e)
   - [ ] Project Description / Introduction (Saber)
   - [ ] Problem formulation (Saber)
   - [ ] Solutions
