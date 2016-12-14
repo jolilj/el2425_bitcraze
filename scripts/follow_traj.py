@@ -9,28 +9,32 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Point
 
 class Trajectory:
-    def __init__(self, radius):
+    def __init__(self, x, y, z):
         self.msg = PoseStamped()
         self.msg.header.seq = 0
         self.msg.header.stamp = rospy.Time.now()
         self.point = Point()
-        self.rate = rospy.Rate(6) # 3hz     
+        self.rate = rospy.Rate(5) # 5hz     
+
+        self.x_init = x;
+        self.y_init = y;
+        self.z_init = z;
 
         # Subscribe to the topics
         rospy.Subscriber('/crazyflie/crazyflie_position', Point, self.positionCallback)   # Position of crazyfile
         self.callTargetPositionService = rospy.ServiceProxy('/crazyflie/set_target_position', SetTargetPosition)
 
+# ======= TOPIC CALLBACKS ================================================== 
+
+    def positionCallback(self, point):
+        self.point = point
+
     def way_points_circle(self,r):
 
 
-        self.x_init = 1
-        self.y_init = 1.6
-        self.z_init = 1.5
         theta = 0
         theta_rad = 0
         
-        print "Point X: %f" %self.x_init
-
         x_cent = self.x_init - r*math.cos(theta_rad)
         y_cent = self.y_init - r*math.sin(theta_rad)
         z_cent = self.z_init
@@ -43,8 +47,6 @@ class Trajectory:
             self.callTargetPositionService(x_new, y_new, z_new)
 
             theta = theta + 5       #10
-            #print "Point: %f" %(self.point.x)
-
             #rate.sleep()
             if theta >= 360:
                 theta = 0
@@ -52,22 +54,24 @@ class Trajectory:
 
     def way_points_line(self,x,y,z):
         self.callTargetPositionService(x, y, z)
-        self.x_init = x
-        self.y_init = y
-        self.z_init = z
 
         print "Point X: %f" %self.x_init
-
-# ======= TOPIC CALLBACKS ================================================== 
-
-    def positionCallback(self, point):
-        self.point = point
 
 if __name__ == "__main__":
     rospy.init_node('Trajectory')
 
-    traj = Trajectory();
+    x = rospy.get_param("/crazyflie/x")
+    y = rospy.get_param("/crazyflie/y")
+    z = rospy.get_param("/crazyflie/z")
+
+    print "Point X: %f" %x
+    print "Point Y: %f" %y
+    print "Point Z: %f" %z
+
+    traj = Trajectory(x,y,z)
+
     type_of_traj = (sys.argv[1])
+
     if type_of_traj == 'c':
         radius = float(sys.argv[2])
         traj.way_points_circle(radius)
