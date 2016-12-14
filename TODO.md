@@ -8,6 +8,6 @@
 - [ ] Getting seriously started with project report
 - [ ] Implement a position swapping script
 - [ ] Implement collision avoidance (Coding!) (Hui and Pedram)
-- [ ] Generate some nice MATLAB plots about the noise of the LPS and simulation (Imran)
+- [x] Generate some nice MATLAB plots about the noise of the LPS and simulation (Imran)
 - [x] Solder push buttons (Imran, Joakim)
 - [ ] If time allows: Script for following a moving target (e.g. the other drone)
