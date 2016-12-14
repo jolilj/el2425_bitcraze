@@ -1,18 +1,15 @@
 <?xml version="1.0"?>
 <launch>
 
-
-  <arg name="ch0" default="125" />
-  <arg name="address0" default="E7" />
-  <arg name="ch1" default="125" />
-  <arg name="address1" default="BC" />
+  <arg name="uri0" default="radio://0/125/2M/E7E7E7E7BC" />
+  <arg name="uri1" default="radio://0/125/2M"/>
 
   <arg name="x0" default="0.0" />
   <arg name="y0" default="1.5" />
-  <arg name="z0" default="1.5" />
+  <arg name="z0" default="1.0" />
   <arg name="x1" default="1.0" />
   <arg name="y1" default="1.5" />
-  <arg name="z1" default="1.5" />
+  <arg name="z1" default="1.0" />
   <arg name="frame" default="base_link" />
 
 
@@ -21,7 +18,7 @@
   <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie2.urdf.xacro" />
 
   <node name="rviz" pkg="rviz" type="rviz"
-        args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf_multiple.rviz"/>
+        args="-d $(find el2425_bitcraze)/data/rvizconfig_with_cf.rviz"/>
 
   <group ns="crazyflie0">
     <param name="x" value="$(arg x0)" />
@@ -32,7 +29,7 @@
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="radio://0/$(arg ch0)/2M/E7E7E7E7$(arg address0)"/>
+      <param name="uri" value="$(arg uri0)" />
       <param name="tf_prefix" value="crazyflie0" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
@@ -48,6 +45,7 @@
 
     <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
     <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
   </group>
 
    <group ns="crazyflie1">
@@ -59,7 +57,7 @@
     <rosparam command="load" file="$(find bitcraze_lps_estimator)/data/anchor_pos.yaml" />
 
     <node pkg="crazyflie_driver" type="crazyflie_add" name="crazyflie_add" output="screen">
-      <param name="uri" value="radio://0/$(arg ch1)/2M/E7E7E7E7$(arg address1)"/>
+      <param name="uri" value="$(arg uri1)" />
       <param name="tf_prefix" value="crazyflie1" />
       <rosparam>
         genericLogTopics: ["log_kfpos", "log_ranges"]
@@ -75,7 +73,14 @@
 
     <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
     <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
+    <node name="lps_viz" pkg="bitcraze_lps_estimator" type="lps_viz.py" />
   </group>
+
+
+  <node name="mimic" pkg="el2425_bitcraze" type="k">
+    <remap from="input" to="turtlesim1/turtle1"/>
+    <remap from="output" to="turtlesim2/turtle1"/>
+  </node>
 
 
   <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"
