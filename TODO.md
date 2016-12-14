@@ -6,6 +6,14 @@
 - [x] Write `fly_multiple.py` script (Joakim)
 - [x] Finish second project review (Caro)
 - [ ] Getting seriously started with project report (Saber)
+  - [ ] Project Description / Introduction (Saber)
+  - [ ] Problem formulation (Saber)
+  - [ ] Solutions
+    - [ ] Localizing drones (LPS)
+    - [ ] ROS architecture (whoenig, lps, el2425_bitcraze) and how to communicate
+    - [ ] Flying (Positionhander, trajectoryplanner)
+  - [ ] Results
+  - [ ] Conclusions
 - [ ] Implement vertical plane circle trajectory (Joakim)
 - [ ] Make trajectory planner use initial hover point as starting point (Imran, Saber)
 - [ ] Make trajectory planner work for two drones (Imran)
