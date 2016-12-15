@@ -28,6 +28,30 @@ class Trajectory:
 
         # calculate the center point of the circle 
         # we are assuming that the initial hover points are on the circumference of the cirlce
+        
+        x_cent = self.x_init - r*math.cos(theta_rad)
+        y_cent = self.y_init - r*math.sin(theta_rad)
+        z_cent = self.z_init
+
+        while not rospy.is_shutdown():
+            theta_rad = math.pi*theta/180
+            x_new = x_cent + r*math.cos(theta_rad)
+            y_new = y_cent + r*math.sin(theta_rad)
+            z_new = z_cent
+    
+            # send the new way points to the service SetTargetPosition
+            self.callTargetPositionService(x_new, y_new, z_new)
+
+            # step/ increment of 5 degrees.
+            # this step decides the shape of the cirlce
+            # if we change it to 90 degrees the tarjectory will become square
+            theta = theta + 5       #10
+            #print "Point: %f" %(self.point.x)
+
+            if theta >= 360:
+                theta = 0
+            self.rate.sleep()
+
     def way_points_vert_circle(self,r):
 
         theta = 0
@@ -71,6 +95,7 @@ if __name__ == "__main__":
     x = rospy.get_param("/crazyflie/x")
     y = rospy.get_param("/crazyflie/y")
     z = rospy.get_param("/crazyflie/z")
+
 
     traj = Trajectory(x, y, z)
     # read the first argument which gives the type of the trajectory
