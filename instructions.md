@@ -9,7 +9,7 @@ Secondly, we have implemented a higher level abstraction from this. The user ins
 
 ### Step 1
 
-Call custom launch file connect.launch that takes a channel and address ending (the last two hexadecimal numbers) as input (defaults to `ch:=125 address:='E7'`) as well as initial target position (defaults to `x0:=0.0 y0:=1.5 z:=1.5`). E.g.
+Call custom launch file connect.launch that takes a channel and address ending (the last two hexadecimal numbers) as input (defaults to `ch:=125 address:='E7'`) as well as initial target position (defaults to `x0:=0.0 y0:=1.5 z0:=1.5`). E.g.
 ```
 roslaunch el2425_bitcraze connect.launch
 ```
@@ -54,18 +54,18 @@ The reference trajectory and the corresponding crazyflie trajectory is plotted i
 ## Flying Drone in a circle
 
 Follow the step 1 to step 3 of Flying as described above.
+Note: Keep z>1 (initial hover point) for safety if you are aiming to fly the drone in a verticel circle.
 
 ### Step 4
 
-Open the 'follow_traj.py' in the editor and make sure that the variables self.x_init, self.y_init and self.z_init must be equal or close enough to x0, y0 and z0, the points that you specify while launching the connect.launch in step1. 
-
-Now run 'follow_traj.py' to fly the UAV in a circle. 
+Now to fly the UAV in a circle run 'follow_traj.py' 
 ```
 rosrun el2425_bitcraze follow_traj.py X r
 ```
 where,
-X = 'c' if you want to fly the drone in a circle and
-r = radius of the circle and r<=0.75
+if X = h drone will fly in a horizental circle 
+and if X = v drone will fly in a vertical circle 
+r = radius of the circle (for safety keep it less than 1 because of the space limitation in lab)
 
 ## Multiple Flight
 The multiple flight is very similar to flying with one crazyflie
