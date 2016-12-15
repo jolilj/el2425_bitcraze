@@ -103,5 +103,21 @@ Call `set_target_position` in corresponding namespace to publish a new target po
 rosservice call /crazyflie0/set_target_position 1.0 2.0 1.8
 rosservice call /crazyflie1/set_target_position 2.0 2.0 1.8
 ```
-## Step 5
+### Step 5
 Switch to tab where `fly_multiple` is running and press `Enter` to land.
+
+## Flying Multiple Drone in a circle
+
+Follow the step 1 to step 3 of Multiple flight as described above.
+Note: Keep z0>1 and z0>1 (initial hover point) for safety if you are aiming to fly the drone in a verticel circle.
+
+### Step 4
+
+Now to fly the UAV in a circle run 'follow_traj_mult.py' 
+```
+rosrun el2425_bitcraze follow_traj_mult.py X Y r0 r1
+```
+where,
+X is the type of the trajectory for crazyflie0 e.g h for horizental and v for vertical
+Y is the type of the trajectory for crazyflie1 e.g h for horizental and v for vertical
+r0 and r1 are the respective radius of the trajectories.
