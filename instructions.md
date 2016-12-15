@@ -54,7 +54,6 @@ The reference trajectory and the corresponding crazyflie trajectory is plotted i
 ## Flying Drone in a circle
 
 Follow the step 1 to step 3 of Flying as described above.
-Note: Keep z>1 (initial hover point) for safety if you are aiming to fly the drone in a verticel circle.
 
 ### Step 4
 
@@ -109,7 +108,6 @@ Switch to tab where `fly_multiple` is running and press `Enter` to land.
 ## Flying Multiple Drone in a circle
 
 Follow the step 1 to step 3 of Multiple flight as described above.
-Note: Keep z0>1 and z0>1 (initial hover point) for safety if you are aiming to fly the drone in a verticel circle.
 
 ### Step 4
 
