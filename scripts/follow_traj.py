@@ -19,6 +19,8 @@ class Trajectory:
 
         # Call the Target position service
         self.callTargetPositionService = rospy.ServiceProxy('/crazyflie/set_target_position', SetTargetPosition)
+        
+        #Set up service for trajectory planning
 
     def way_points_horiz_circle(self,r):
 

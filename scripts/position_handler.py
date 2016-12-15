@@ -101,7 +101,7 @@ class PositionHandler:
 
         k = vel*self.deltaT
 
-        nextPos = [x_old+k*cfDirection[0], y_old+k*cfDirection[1],x_old+k*cfDirection[2]]
+        nextPos = [x_old+k*cfDirection[0], y_old+k*cfDirection[1],z_old+k*cfDirection[2]]
         
         if not self.isSingleCF:
             cf2Direction = self.calcDirection(self.cf2Pos, self.cf2PrevPos)
@@ -110,14 +110,16 @@ class PositionHandler:
             self.cf2PrevPos = self.cf2Pos
 
         #If overshoot set new position to goal
-        if math.fabs(self.targetPosition[0]-x_old) <= math.fabs(k*cfDirection[0]):
-            x_new = self.targetPosition[0]
-            y_new = self.targetPosition[1]
-            z_new = self.targetPosition[2]
+        overshoot = math.fabs(self.targetPosition[0]-x_old) <= math.fabs(k*cfDirection[0])
+        overshoot = overshoot and math.fabs(self.targetPosition[1]-y_old) <= math.fabs(k*cfDirection[1])
+        overshoot = overshoot and math.fabs(self.targetPosition[2]-z_old) <= math.fabs(k*cfDirection[2])
+    
+        if overshoot:
+            nextPos = [self.targetPosition[0], self.targetPosition[1], self.targetPosition[2]]
             
-        self.referenceMsg.pose.position.x = x_new
-        self.referenceMsg.pose.position.y = y_new
-        self.referenceMsg.pose.position.z = z_new
+        self.referenceMsg.pose.position.x = nextPos[0]
+        self.referenceMsg.pose.position.y = nextPos[1]
+        self.referenceMsg.pose.position.z = nextPos[2]
         
 
     # ====== Callback for second crazyflie goal =====
@@ -132,6 +134,7 @@ class PositionHandler:
         delta_z = float(pos1[2]-pos2[2])
         
         delta_norm = (math.sqrt(math.pow(delta_x,2)+math.pow(delta_y,2)+math.pow(delta_z,2)))
+
         if not delta_norm == 0:
             return [delta_x/delta_norm, delta_y/delta_norm, delta_z/delta_norm]
         return [0, 0, 0]
