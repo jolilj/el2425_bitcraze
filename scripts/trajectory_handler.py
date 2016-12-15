@@ -46,8 +46,8 @@ class PolygonTrajectoryPlanner:
                     self.onCircle = True
                     theta_rad = math.pi*self.theta/180
                     x_new = self.center[0] + self.r*math.cos(theta_rad)
-                    y_new = self.center[1] + self.r*math.sin(theta_rad)*math.cos(self.xrotation)
-                    z_new = self.center[2] - self.r*math.sin(theta_rad)*math.sin(self.xrotation)
+                    y_new = self.center[1] + self.r*math.sin(theta_rad)*math.cos(self.xrotation*math.pi/180)
+                    z_new = self.center[2] - self.r*math.sin(theta_rad)*math.sin(self.xrotation*math.pi/180)
 
                     # step/ increment of 5 degrees.
                     # this step decides the shape of the cirlce
