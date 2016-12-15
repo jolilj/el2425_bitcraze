@@ -51,10 +51,26 @@ Stop hovering by pressing `Enter` in the terminal where the fly.py script is run
 ### Trajectory plotting
 The reference trajectory and the corresponding crazyflie trajectory is plotted in RViz. The crazyflie trajectory is plotted once a target position has been set (by calling `/set_target_position`).
 
+## Flying Drone in a circle
+
+Follow the step 1 to step 3 of Flying as described above.
+
+### Step 4
+
+Open the 'follow_traj.py' in the editor and make sure that the variables self.x_init, self.y_init and self.z_init must be equal or close enough to x0, y0 and z0, the points that you specify while launching the connect.launch in step1. 
+
+Now run 'follow_traj.py' to fly the UAV in a circle. 
+```
+rosrun el2425_bitcraze follow_traj.py X r
+```
+where,
+X = 'c' if you want to fly the drone in a circle and
+r = radius of the circle and r<=0.75
+
 ## Multiple Flight
 The multiple flight is very similar to flying with one crazyflie
 
-## Step 1
+### Step 1
 Launch `connect_multiple.launch` wich takes the following arguments with specified default values
 ```
 ch0:=125
@@ -73,12 +89,19 @@ E.g.
 roslaunch el2425_bitcraze connect_multiple.launch
 ```
 to hover with crazyflie0 at `0.0 1.5 1.5` and crazyflie1 at `1.0 1.5 1.5`. 
-## Step 2
+### Step 2
 Wait for filter convergence, check RViz
 
-## Step 3
+### Step 3
 Run `fly_multiple.py`
 ```
 rosrun el2425_bitcraze fly_multiple.py
 ```
-Press `Enter` to land.
+### Step 4
+Call `set_target_position` in corresponding namespace to publish a new target position for the crazyflies. To send crazyflie0 to `1.0 2.0 1.8` and crazyflie1 to `2.0 2.0 1.8` one would write (in a new terminal tab)
+```
+rosservice call /crazyflie0/set_target_position 1.0 2.0 1.8
+rosservice call /crazyflie1/set_target_position 2.0 2.0 1.8
+```
+## Step 5
+Switch to tab where `fly_multiple` is running and press `Enter` to land.

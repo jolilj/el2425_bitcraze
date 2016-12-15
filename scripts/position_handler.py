@@ -45,7 +45,9 @@ class PositionHandler:
         self.rate = rospy.Rate(20)
         self.goalPub = rospy.Publisher("goal", PoseStamped, queue_size=1)
         self.targetPosPub = rospy.Publisher("target_pos", Array, queue_size=1, latch=True)
-        self.setGoalService = rospy.Service('set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
+
+        rospy.Service('set_target_position', SetTargetPosition, self.targetPositionServiceCallback)
+
         self.isRunning = False
    
     # ====== Target Position Service Callback ==== 
