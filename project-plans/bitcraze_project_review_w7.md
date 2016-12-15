@@ -1,4 +1,5 @@
-# Project Review Week 7
+# The "Bitcraze group"
+# Second Project Review (Week 7)
 
 After we had achieved our goal of hovering the crazyflie drone, the goal of the following week was to make one drone follow a trajectory. Subsequently another drone was introduced with the goal to implement a multi-agent path planning task while avoiding collisions of the drones.
 
@@ -17,6 +18,10 @@ We then also implemented a script to log information about our position measurem
 As the goal of our project is to do multi-agent control for drones we started to look into how to control two drones at the same time. We experienced problems with the build configuration of the crazyflie firmware that had to be changed in order to fly two drones at the same time. But finally we managed to get positions of two drones.
 
 We also started inquiring into collision avoidance algorithms and started writing a script that overrides the present trajectory with a half circle as soon as the drones get to close to each other. We also specify constraints such that the drone is not leaving a defined outer box.
+
+&nbsp;
+
+
 
 
 ## Week 7
