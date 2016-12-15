@@ -11,6 +11,7 @@
         <param name="y" value="$(arg y)" />
         <param name="z" value="$(arg z)" />
 
+        <node name="position_sim" pkg="el2425_bitcraze" type="position_sim.py" output="screen"/>
         <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
         <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
     </group>
