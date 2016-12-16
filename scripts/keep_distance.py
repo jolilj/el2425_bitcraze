@@ -18,6 +18,7 @@ if __name__=='__main__':
     rate = rospy.Rate(5)
     global distance
     distance=[0,0.5,0]
-    while not rospy.is_shutdown():
-        rospy.Subscriber("/crazyflie0/crazyflie_position", Point, callback)
-        rate.sleep()
+    rospy.Subscriber("/crazyflie0/crazyflie_position", Point, callback)
+    rospy.spin()
+    #while not rospy.is_shutdown():
+    #    rate.sleep()
