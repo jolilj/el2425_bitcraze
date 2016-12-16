@@ -1,4 +1,5 @@
 import math
+import rospy
 
 # ======================= README =======================
 #
@@ -25,6 +26,8 @@ import math
 # needs to slow down (check the text above the Algorithm function for more info).
 #
 # ======================================================
+
+tolerance=1E-7
 
 #INPUT: vectors
 #OUTPUT: dot product
@@ -89,7 +92,7 @@ def approaching_drones(pd1, delta1, pd2, delta2, r):
             delta1 = div(delta1,norm(delta1))
             delta2 = div(delta2, norm(delta2))
             dot = dot_product(delta1, delta2)       
-            print "dot:"
+            print "dot for %s:" %(rospy.get_namespace())
             print dot
             theta_threshold = math.pi/4
             if dot < math.cos(math.pi + theta_threshold) and dot > -1:
@@ -110,7 +113,6 @@ def approaching_drones(pd1, delta1, pd2, delta2, r):
 # INPUT: vectors
 # OUTPUT: new goal direction for a
 def NewGoalDirection(a, b):
-
     c = cross_product(a, b)
     c = div(c,norm(c))
 
@@ -133,8 +135,12 @@ def Algorithm(pos0, dir0, pos1, dir1):
     r_threshold = 0.7
     r = absolute_distance(pos0, pos1)
 
+    if norm(dir0)=<tolerance and norm(dir1)=<tolerance:
+        #do nothing
+        return [dir0, dir1, 0]
+
     # the drones are too close to each other
-    if r<r_threshold:
+    else if r<r_threshold:
 
 
         # the drones are approaching each other
