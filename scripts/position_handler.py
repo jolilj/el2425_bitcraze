@@ -4,6 +4,7 @@ import rospy
 import math
 import sys
 import tf
+from collision_avoidance import CAA as CollisionAvoider   
 from el2425_bitcraze.srv import SetTargetPosition
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray as Array
@@ -23,6 +24,7 @@ deltaT = 0.2    # 0.2
 vel = 0.5
 class PositionHandler:
     def __init__(self):
+        self.collisionAvoider = CollisionAvoider
         self.isSingleCF = 0
         namespace = rospy.get_namespace()
         if namespace == "/crazyflie/":
