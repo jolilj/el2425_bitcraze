@@ -26,6 +26,19 @@ import math
 #
 # ======================================================
 
+#INPUT: vectors
+#OUTPUT: dot product
+def dot_product(a, b):
+    for i in range(0,len(a)):
+        c[i]=a[i]*b[i]
+    return c
+
+#INPUT: a=vector b=scalar
+#OUTPUT: division between vector and scalar
+def div(a, b):
+    for i in range(0,len(a)):
+        a[i]=a[i]/b
+    return a
 
 # INPUT: vectors
 # OUTPUT: cross product
@@ -42,7 +55,7 @@ def cross_product(a, b):
 def sum(a, b):
     c = [a[0]+b[0], a[1]+b[1], a[2]+b[2]]
     return c
-
+    
 
 # INPUT: vectors
 # OUTPUT: norm of the sum of the vectors
