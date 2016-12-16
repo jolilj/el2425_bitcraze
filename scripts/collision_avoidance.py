@@ -29,8 +29,9 @@ import math
 #INPUT: vectors
 #OUTPUT: dot product
 def dot_product(a, b):
+    c = 0
     for i in range(0,len(a)):
-        c[i]=a[i]*b[i]
+        c = c + a[i]*b[i]
     return c
 
 #INPUT: a=vector b=scalar
@@ -80,15 +81,16 @@ def absolute_distance(fpd1, fpd2):
 def approaching_drones(pd1, delta1, pd2, delta2, r):
 
     cf2_vec = [pd2[0]-pd1[0], pd2[1]-pd1[1], pd2[2] - pd1[2]]
-    isApproaching = dotproduct(delta1, cf2_vec) >= 0
+    isApproaching = dot_product(delta1, cf2_vec) >= 0
     # check if the drones are going towards or away from each other
     if isApproaching:
             print("isApproaching")
             # the distance is shrinking, they are approaching each other
             delta1 = div(delta1,norm(delta1))
             delta2 = div(delta2, norm(delta2))
-            dot = dotproduct(delta1, delta2)       
-
+            dot = dot_product(delta1, delta2)       
+            print "dot:"
+            print dot
             theta_threshold = math.pi/4
             if dot < math.cos(math.pi + theta_threshold) and dot > -1:
 
@@ -161,7 +163,7 @@ def Algorithm(pos0, dir0, pos1, dir1):
     # the drones will not collide 
     # return the original goal direction
     else:
-        return [ direction1, direction2, 0 ]
+        return [ dir0, dir1, 0 ]
 
 
 

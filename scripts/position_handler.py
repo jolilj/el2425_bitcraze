@@ -4,7 +4,7 @@ import rospy
 import math
 import sys
 import tf
-from collision_avoidance import CAA as CollisionAvoider   
+import collision_avoidance as caa   
 from el2425_bitcraze.srv import SetTargetPosition
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray as Array
@@ -24,7 +24,6 @@ deltaT = 0.2    # 0.2
 vel = 0.5
 class PositionHandler:
     def __init__(self):
-        self.collisionAvoider = CollisionAvoider
         self.isSingleCF = 0
         namespace = rospy.get_namespace()
         if namespace == "/crazyflie/":
@@ -107,8 +106,8 @@ class PositionHandler:
         
         if not self.isSingleCF:
             cf2Direction = self.calcDirection(self.cf2Pos, self.cf2PrevPos)
-            cf2NextPos = [self.cf2Pos[0]+k*cf2Direction[0], self.cf2Pos[1]+k*cf2Direction[1],self.cf2Pos[2]+k*cf2Direction[2]]
-            #nextPos = collisionAvoidance(nextPos, cfDirection, cf2NextPos, cf2Direction)
+            caa_result = caa.Algorithm([x_old, y_old, z_old], cfDirection, self.cf2Pos, cf2Direction)
+            cfDirection = caa_result[0]
             self.cf2PrevPos = self.cf2Pos
 
         #If overshoot set new position to goal
