@@ -17,6 +17,8 @@
         <param name="z" value="$(arg z0)" />
         <rosparam command="load" file="$(find el2425_bitcraze)/data/anchor_pos.yaml" />
 
+        <node name="position_sim" pkg="el2425_bitcraze" type="position_sim.py" output="screen"/>
+        <node name="trajectory_handler" pkg="el2425_bitcraze" type="trajectory_handler.py" output="screen" />
         <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen"/>
         <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
     </group>
@@ -27,6 +29,8 @@
         <param name="z" value="$(arg z1)" />
         <rosparam command="load" file="$(find el2425_bitcraze)/data/anchor_pos.yaml" />
 
+        <node name="position_sim" pkg="el2425_bitcraze" type="position_sim.py" output="screen"/>
+        <node name="trajectory_handler" pkg="el2425_bitcraze" type="trajectory_handler.py" output="screen" />
         <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
         <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
     </group>
