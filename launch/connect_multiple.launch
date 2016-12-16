@@ -47,6 +47,7 @@
     <node name="lps_efk_bridge" pkg="bitcraze_lps_estimator" type="lps_ekf_bridge.py" output="screen"/>
 
     <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
+    <node name="trajectory_handler" pkg="el2425_bitcraze" type="trajectory_handler.py" output="screen" />
     <node name="plotter" pkg="el2425_bitcraze" type="plotter.py" output="screen" />
   </group>
 
@@ -70,7 +71,7 @@
     </node>
 
     <node name="controller_bridge" pkg="bitcraze_lps_estimator" type="crazyflie_controller_bridge.py" output="screen"/>
-
+    <node name="trajectory_handler" pkg="el2425_bitcraze" type="trajectory_handler.py" output="screen" />
     <node name="lps_efk_bridge" pkg="bitcraze_lps_estimator" type="lps_ekf_bridge.py" output="screen"/>
 
     <node name="position_handler" pkg="el2425_bitcraze" type="position_handler.py" output="screen" />
