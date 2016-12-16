@@ -59,44 +59,31 @@ def absolute_distance(fpd1, fpd2):
     return r
 
 
-# INPUT: future position of the drones, their direction and their absolute distance
+# INPUT: position of the drones, their direction and their absolute distance
 # OUTPUT (flag):
 # 0 - not approaching at all
 # 1 - approaching each other
 # 2 - the drone that is behind needs to slow down
-def approaching_drones(fpd1, delta1, fpd2, delta2, r):
+def approaching_drones(pd1, delta1, pd2, delta2, r):
 
-    k = 0.05
-    # next goal positions given current direction and goal point
-    ngp1 = [fpd1[0]+k*delta1[0], fpd1[1]+k*delta1[1], fpd1[2]+k*delta1[2]] 
-    ngp2 = [fpd2[0]+k*delta2[0], fpd2[1]+k*delta2[1], fpd2[2]+k*delta2[2]]
-    r_nextGoalPoint = absolute_distance(ngp1, ngp2)
-
+    cf2_vec = [pd2[0]-pd1[0], pd2[1]-pd1[1], pd2[2] - pd1[2]]
+    isApproaching = dotproduct(delta1, cf2_vec) >= 0
     # check if the drones are going towards or away from each other
-    if r>r_nextGoalPoint:
-            print("distance shrinking")
+    if isApproaching:
+            print("isApproaching")
             # the distance is shrinking, they are approaching each other
+            delta1 = div(delta1,norm(delta1))
+            delta2 = div(delta2, norm(delta2))
+            dot = dotproduct(delta1, delta2)       
 
-            # check if they are going towards the same direction
-            angle_drone1 = math.atan2(delta1[1], delta1[0]) #returns arctan(y/x) in radians
-            if angle_drone1<0:
-                angle_drone1 = angle_drone1 + 6.28
-            angle_drone2 = math.atan2(delta2[1], delta2[0])
-            if angle_drone2<0:
-                angle_drone2 = angle_drone2 + 6.28
-            angle_diff = abs(angle_drone1 - angle_drone2) - 3.14
-            print(angle_drone1)
-            print(angle_drone2)
-            print(angle_diff)
-
-            # check if they are pointing too much towards each other in the x/y plane and in z direction
-            if abs(angle_diff)<0.35 and abs(delta1[2]-delta2[2])<0.10:  #20 [degrees] and 0.10 [meters]
+            theta_threshold = math.pi/4
+            if dot < math.cos(math.pi + theta_threshold) and dot > -1:
 
                 # the drones are approaching each other
                 return 1
 
             # if the drones are getting closer to each other, but are not going towards each other (one is following the other)
-            elif abs(angle_diff)>170 and abs(angle_diff)<190:
+            else:
 
                 # the drone following needs to slow down
                 return 2
@@ -109,15 +96,16 @@ def approaching_drones(fpd1, delta1, fpd2, delta2, r):
 # OUTPUT: new goal direction for a
 def NewGoalDirection(a, b):
 
+    c = cross_product(a, b)
+    c = div(c,norm(c))
+
     ab_sum = sum(a,b)
+    ab_sum = div(ab_sum, norm(ab_sum))
 
-    c = cross_product(a, b) / norm(ab_sum)
-    d = ab_sum / norm(ab_sum)
-    cd_sum = sum(c,d)
+    d = sum(c,ab_sum)
+    d = div(d, norm(d))
 
-    e = cd_sum / norm(cd_sum)
-
-    return e
+    return d
 
 
 # INPUT: goal position and direction for drone 1 and 2
