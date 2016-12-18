@@ -15,8 +15,8 @@
     - [ ] Collision avoidance (Hui)
   - [ ] Results
   - [ ] Conclusions
-- [ ] Implement vertical plane circle trajectory (Imran, Saber)
-- [ ] Make trajectory planner use initial hover point as starting point (Imran, Saber)
+- [x] Implement vertical plane circle trajectory (Imran, Saber)
+- [x] Make trajectory planner use initial hover point as starting point (Imran, Saber)
 - [ ] Make trajectory planner work for two drones (Imran, Saber)
 - [ ] Implement a position swapping script (Robert)
 - [ ] Simulate crazyflie position in connection (Robert)
