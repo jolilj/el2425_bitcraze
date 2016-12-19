@@ -6,6 +6,7 @@ import rospy
 # Version 2.2 (Pedram Fathollahzadeh, Joakim Lilja, Caro Heidenreich)
 # Direction based collision avoidance
 # If crazyflies are within a ball of radius r and approaching each other (angle between directions between -5pi/4 and -3pi/4)
+# a new direction for the crazyflie in question is calculated based on the cross product of their directions. If directions are parallell the direction is rotated around the axis with the smallest component, e.g. arg_min[direction].
 # ======================================================
 
 tolerance=1E-7
@@ -105,10 +106,14 @@ def NewGoalDirection(a, b):
 
     if norm(c)==0 :
         print("Vectors are parallell")
-        if not abs(a[0]) >= 0.6:
+        arg = 0
+        for i in range(0,len(a)):
+            if math.fabs(a[i]) < math.fabs(a[arg]):
+                arg = i
+        if arg == 0:
             print("Rotate around x")
             return [a[0], a[1]*math.cos(theta)-a[2]*math.sin(theta), a[1]*math.sin(theta)+a[2]*math.cos(theta)]
-        if not abs(a[1]) >= 0.6:
+        if arg == 1:
             print("Rotate around y")
             return [a[0]*math.cos(theta)+a[2]*math.sin(theta), a[1], -a[0]*math.sin(theta)+a[2]*math.cos(theta)]
         print "Rotate around z"
