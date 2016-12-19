@@ -65,31 +65,32 @@ def absolute_distance(fpd1, fpd2):
 # 2 - the drone that is behind needs to slow down
 def approaching_drones(pd1, delta1, pd2, delta2, r):
 
+    #Vector between drones
     cf2_vec = [pd2[0]-pd1[0], pd2[1]-pd1[1], pd2[2] - pd1[2]]
-    isApproaching = dot_product(delta1, cf2_vec) >= 0
-    # check if the drones are going towards or away from each other
-    if isApproaching:
-            print("isApproaching")
-            # the distance is shrinking, they are approaching each other
 
+    # check if the drones are going towards or away from each other 
+    # (Checks if the direction of the drone projected onto cf2_vec (vector between drones) is positive, that is point
+    # in the direction of the other drone
+    isApproaching = dot_product(delta1, cf2_vec) >= 0
+    if isApproaching:
+            #Sanity check if the directions are actually normed
             if not norm(delta1) == 0:
                 delta1 = div(delta1,norm(delta1))
             if not norm(delta2) == 0:
                 delta2 = div(delta2, norm(delta2))
 
+            # Check the angle between the drones
             dot = dot_product(delta1, delta2)
-            print "Dot between vectors"
-            print dot
             theta_threshold = math.pi/4
             if (dot < math.cos(math.pi + theta_threshold) and dot >= -1) or norm(delta1)==0 or norm(delta2)==0:
 
                 # the drones are approaching each other
                 return 1
 
-            # if the drones are getting closer to each other, but are not going towards each other (one is following the other)
+            # if the drones are getting closer to each other, but are not on collision course
             else:
 
-                # the drone following needs to slow down
+                # the drone needs to slow down for safety
                 return 2
 
     # they are not approaching each other		
@@ -100,34 +101,27 @@ def approaching_drones(pd1, delta1, pd2, delta2, r):
 # INPUT: vectors
 # OUTPUT: new goal direction for a
 def NewGoalDirection(a, b):
+    # Take the cross product between the directions to yield a perpedicular vector
     c = cross_product(a, b)
-
-    theta = math.pi/4
-
+    
+    # If vectors are parallell or one is the null vector special care is needed
     if norm(c)==0 :
-        print("Vectors are parallell")
+        # Rotate a around the axis with the least component
+        theta = math.pi/4
         arg = 0
         for i in range(0,len(a)):
             if math.fabs(a[i]) < math.fabs(a[arg]):
                 arg = i
         if arg == 0:
-            print("Rotate around x")
             return [a[0], a[1]*math.cos(theta)-a[2]*math.sin(theta), a[1]*math.sin(theta)+a[2]*math.cos(theta)]
         if arg == 1:
-            print("Rotate around y")
             return [a[0]*math.cos(theta)+a[2]*math.sin(theta), a[1], -a[0]*math.sin(theta)+a[2]*math.cos(theta)]
-        print "Rotate around z"
         return [a[0]*math.cos(theta)-a[1]*math.sin(theta), a[0]*math.sin(theta)+a[1]*math.cos(theta), a[2]]
 
-
+    #Norm c
     c = div(c,norm(c))
-    
-    ab_sum = sum(a,b)
-    ab_sum = div(ab_sum, norm(ab_sum))
 
-    # Weigh c less than a and b
-    c = [c[0], c[1], c[2]]
-
+    # And choose the normed sum of a and c as the new direction
     d = sum(c,a)
     d = div(d, norm(d))
     return d
@@ -156,7 +150,7 @@ def Algorithm(pos0, dir0, pos1, dir1):
         mode = approaching_drones(pos0, dir0, pos1, dir1, r)
         if mode==1:
             dir0 = NewGoalDirection(dir0, dir1)
-            #direction1 = NewGoalDirection(dir1, dir0)
+            dir1 = NewGoalDirection(dir1, dir0)
 
 
             return [ dir0, dir1, 1 ]
