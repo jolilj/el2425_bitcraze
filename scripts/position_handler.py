@@ -4,6 +4,7 @@ import rospy
 import math
 import sys
 import tf
+import collision_avoidance as caa   
 from el2425_bitcraze.srv import SetTargetPosition
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray as Array
@@ -98,16 +99,25 @@ class PositionHandler:
         z_old = self.referenceMsg.pose.position.z
 
         cfDirection = self.calcDirection(self.targetPosition,[x_old, y_old, z_old])
+        print("============")
+        print("cf direction before CAA:")
+        print(cfDirection)
 
         k = vel*self.deltaT
 
-        nextPos = [x_old+k*cfDirection[0], y_old+k*cfDirection[1],z_old+k*cfDirection[2]]
+       
         
         if not self.isSingleCF:
             cf2Direction = self.calcDirection(self.cf2Pos, self.cf2PrevPos)
-            cf2NextPos = [self.cf2Pos[0]+k*cf2Direction[0], self.cf2Pos[1]+k*cf2Direction[1],self.cf2Pos[2]+k*cf2Direction[2]]
-            #nextPos = collisionAvoidance(nextPos, cfDirection, cf2NextPos, cf2Direction)
+            caa_result = caa.Algorithm([x_old, y_old, z_old], cfDirection, self.cf2Pos, cf2Direction)
+            cfDirection = caa_result[0]
+
+            print("cf direction:")
+            print(cfDirection)
+            print("============")
             self.cf2PrevPos = self.cf2Pos
+
+        nextPos = [x_old+k*cfDirection[0], y_old+k*cfDirection[1],z_old+k*cfDirection[2]]
 
         #If overshoot set new position to goal
         overshoot = math.fabs(self.targetPosition[0]-x_old) <= math.fabs(k*cfDirection[0])
