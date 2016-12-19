@@ -6,12 +6,12 @@
 - [x] Write `fly_multiple.py` script (Joakim)
 - [x] Finish second project review (Caro)
 - [ ] Getting seriously started with project report (Saber, Hui) (link: https://www.sharelatex.com/project/5847ccf8b537eb9968b58a7e)
-  - [ ] Project Description / Introduction (Saber)
-  - [ ] Problem formulation (Saber)
+  - [x] Project Description / Introduction (Caro)
+  - [x] Problem formulation (Caro)
   - [ ] Solutions
     - [ ] Localizing drones (LPS)
     - [ ] ROS architecture (whoenig, lps, el2425_bitcraze) and how to communicate
-    - [ ] Flying (Positionhander, trajectoryplanner)
+    - [ ] Flying (Positionhandler, trajectoryplanner)
     - [ ] Collision avoidance (Hui)
   - [ ] Results
   - [ ] Conclusions
