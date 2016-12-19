@@ -3,28 +3,9 @@ import rospy
 
 # ======================= README =======================
 #
-# Version 2.1 (Pedram Fathollahzadeh)
-#
-# NOTE: Three things that have been changed from version 2.0:
-#
-# 1. An improved method to see if the drones are approaching each other have been
-# implemented here in the approaching_drones(fpd1, delta1, fpd2, delta2, r) function.
-# This one looks at the angle in x/y plane and the difference in z direction. 
-#
-# 2. The __init__ constructor has been removed, and all the inputs should be sent directly
-# to the Algorithm(pos0, dir0, pos1, dir1) function instead. Now, only one instance/object
-# of this class is needed, and different inputs can be sent to Algorithm function using 
-# the same instance/object. This should be more computationally efficient.
-#
-# 3. This Collision Avoidance Algorithm now deals with the case when one drone is 
-# following the other and they are getting too close. The Algorithm function will
-# then return a flag (2) in the last element of the array.  
-#
-# NOTE: Algorithm() is the main function that should be called and will return either
-# a new direction or the same that was decided outside this class, together with a
-# flag (0, 1, 2) that tells if a new direction has been set or not, or if one drone
-# needs to slow down (check the text above the Algorithm function for more info).
-#
+# Version 2.2 (Pedram Fathollahzadeh, Joakim Lilja, Caro Heidenreich)
+# Direction based collision avoidance
+# If crazyflies are within a ball of radius r and approaching each other (angle between directions between -5pi/4 and -3pi/4)
 # ======================================================
 
 tolerance=1E-7
@@ -94,7 +75,10 @@ def approaching_drones(pd1, delta1, pd2, delta2, r):
                 delta1 = div(delta1,norm(delta1))
             if not norm(delta2) == 0:
                 delta2 = div(delta2, norm(delta2))
+
             dot = dot_product(delta1, delta2)
+            print "Dot between vectors"
+            print dot
             theta_threshold = math.pi/4
             if (dot < math.cos(math.pi + theta_threshold) and dot >= -1) or norm(delta1)==0 or norm(delta2)==0:
 
@@ -120,22 +104,27 @@ def NewGoalDirection(a, b):
     theta = math.pi/4
 
     if norm(c)==0 :
+        print("Vectors are parallell")
         if not abs(a[0]) >= 0.6:
+            print("Rotate around x")
             return [a[0], a[1]*math.cos(theta)-a[2]*math.sin(theta), a[1]*math.sin(theta)+a[2]*math.cos(theta)]
         if not abs(a[1]) >= 0.6:
+            print("Rotate around y")
             return [a[0]*math.cos(theta)+a[2]*math.sin(theta), a[1], -a[0]*math.sin(theta)+a[2]*math.cos(theta)]
-        print("case z")
+        print "Rotate around z"
         return [a[0]*math.cos(theta)-a[1]*math.sin(theta), a[0]*math.sin(theta)+a[1]*math.cos(theta), a[2]]
 
 
     c = div(c,norm(c))
-
+    
     ab_sum = sum(a,b)
     ab_sum = div(ab_sum, norm(ab_sum))
 
-    d = sum(c,ab_sum)
-    d = div(d, norm(d))
+    # Weigh c less than a and b
+    c = [c[0], c[1], c[2]]
 
+    d = sum(c,a)
+    d = div(d, norm(d))
     return d
 
 
@@ -161,12 +150,11 @@ def Algorithm(pos0, dir0, pos1, dir1):
         # return different goal point
         mode = approaching_drones(pos0, dir0, pos1, dir1, r)
         if mode==1:
+            dir0 = NewGoalDirection(dir0, dir1)
+            #direction1 = NewGoalDirection(dir1, dir0)
 
-            direction0 = NewGoalDirection(dir0, dir1)
-            direction1 = NewGoalDirection(dir1, dir0)
 
-
-            return [ direction0, direction1, 1 ]
+            return [ dir0, dir1, 1 ]
 
         # the drone that is behind needs to slow down
         # return the original goal direction
@@ -190,4 +178,4 @@ def Algorithm(pos0, dir0, pos1, dir1):
 
 
 
-print(Algorithm([0.0,0.0,0], [0.0,0,0], [0.2,0.0,0], [1.0, 0.0,0.0]))
+#print(Algorithm([0.0,0.0,0], [0.0,0,0], [0.2,0.0,0], [1.0, 0.0,0.0]))
