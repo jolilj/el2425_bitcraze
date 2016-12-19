@@ -89,13 +89,14 @@ def approaching_drones(pd1, delta1, pd2, delta2, r):
     if isApproaching:
             print("isApproaching")
             # the distance is shrinking, they are approaching each other
-            delta1 = div(delta1,norm(delta1))
-            delta2 = div(delta2, norm(delta2))
-            dot = dot_product(delta1, delta2)       
-            print "dot for %s:" %(rospy.get_namespace())
-            print dot
+
+            if not norm(delta1) == 0:
+                delta1 = div(delta1,norm(delta1))
+            if not norm(delta2) == 0:
+                delta2 = div(delta2, norm(delta2))
+            dot = dot_product(delta1, delta2)
             theta_threshold = math.pi/4
-            if dot < math.cos(math.pi + theta_threshold) and dot > -1:
+            if (dot < math.cos(math.pi + theta_threshold) and dot >= -1) or norm(delta1)==0 or norm(delta2)==0:
 
                 # the drones are approaching each other
                 return 1
@@ -110,10 +111,23 @@ def approaching_drones(pd1, delta1, pd2, delta2, r):
     return 0
 
 
+
 # INPUT: vectors
 # OUTPUT: new goal direction for a
 def NewGoalDirection(a, b):
     c = cross_product(a, b)
+
+    theta = math.pi/4
+
+    if norm(c)==0 :
+        if not abs(a[0]) >= 0.6:
+            return [a[0], a[1]*math.cos(theta)-a[2]*math.sin(theta), a[1]*math.sin(theta)+a[2]*math.cos(theta)]
+        if not abs(a[1]) >= 0.6:
+            return [a[0]*math.cos(theta)+a[2]*math.sin(theta), a[1], -a[0]*math.sin(theta)+a[2]*math.cos(theta)]
+        print("case z")
+        return [a[0]*math.cos(theta)-a[1]*math.sin(theta), a[0]*math.sin(theta)+a[1]*math.cos(theta), a[2]]
+
+
     c = div(c,norm(c))
 
     ab_sum = sum(a,b)
@@ -135,12 +149,12 @@ def Algorithm(pos0, dir0, pos1, dir1):
     r_threshold = 0.7
     r = absolute_distance(pos0, pos1)
 
-    if norm(dir0)=<tolerance and norm(dir1)=<tolerance:
+    if norm(dir0)<=tolerance and norm(dir1)<=tolerance:
         #do nothing
         return [dir0, dir1, 0]
 
     # the drones are too close to each other
-    else if r<r_threshold:
+    elif r<r_threshold:
 
 
         # the drones are approaching each other
@@ -150,6 +164,7 @@ def Algorithm(pos0, dir0, pos1, dir1):
 
             direction0 = NewGoalDirection(dir0, dir1)
             direction1 = NewGoalDirection(dir1, dir0)
+
 
             return [ direction0, direction1, 1 ]
 
@@ -175,4 +190,4 @@ def Algorithm(pos0, dir0, pos1, dir1):
 
 
 
-print(Algorithm([0.0,0.0,0], [1.0,0,0], [0.2,0.0,0], [-0.9,0.1,0.0]))
+print(Algorithm([0.0,0.0,0], [0.0,0,0], [0.2,0.0,0], [1.0, 0.0,0.0]))
