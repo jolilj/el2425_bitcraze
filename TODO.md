@@ -9,7 +9,7 @@
   - [x] Project Description / Introduction (Caro)
   - [x] Problem formulation (Caro)
   - [ ] Solutions
-    - [ ] Localizing drones (LPS) (Saber)
+    - [x] Localizing drones (LPS) (Saber)
     - [ ] ROS architecture (whoenig, lps, el2425_bitcraze) and how to communicate
     - [ ] Flying (Positionhandler, trajectoryplanner)
     - [ ] Collision avoidance (Hui)
