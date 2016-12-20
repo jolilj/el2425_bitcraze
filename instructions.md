@@ -51,20 +51,16 @@ Stop hovering by pressing `Enter` in the terminal where the fly.py script is run
 ### Trajectory plotting
 The reference trajectory and the corresponding crazyflie trajectory is plotted in RViz. The crazyflie trajectory is plotted once a target position has been set (by calling `/set_target_position`).
 
-## Flying Drone in a circle
+## Circular Path Following
 
 Follow the step 1 to step 3 of Flying as described above.
 
 ### Step 4
 
-Now to fly the UAV in a circle run 'follow_traj.py' 
+Now to fly the UAV in a circle, call the service `set_polygon_trajectory`. The service takes three arguments, a list with the center of the circle, the radius and the angle in degrees w.r.t the x-axis. E.g. 
 ```
-rosrun el2425_bitcraze follow_traj.py X r
+rosservice call /crazyflie/set_polygon_trajectory '[x0, y0, z0]' r0 theta0
 ```
-where,
-if X = h drone will fly in a horizental circle 
-and if X = v drone will fly in a vertical circle 
-r = radius of the circle (for safety keep it less than 1 because of the space limitation in lab)
 
 ## Multiple Flight
 The multiple flight is very similar to flying with one crazyflie
@@ -105,17 +101,21 @@ rosservice call /crazyflie1/set_target_position 2.0 2.0 1.8
 ### Step 5
 Switch to tab where `fly_multiple` is running and press `Enter` to land.
 
-## Flying Multiple Drone in a circle
-
-Follow the step 1 to step 3 of Multiple flight as described above.
-
-### Step 4
-
-Now to fly the UAV in a circle run 'follow_traj_mult.py' 
+## Circular Path Following for Two Drones
+You can follow the steps in folling a circular path for a single drone but calling the service with the appropriate
+namespace. E.g.
 ```
-rosrun el2425_bitcraze follow_traj_mult.py X Y r0 r1
+rosservice call /crazyflie/set_polygon_trajectory '[x0, y0, z0]' r0 theta0
+rosservice call /crazyflie/set_polygon_trajectory '[x1, y1, z1]' r0 theta1
 ```
-where,
-X is the type of the trajectory for crazyflie0 e.g h for horizental and v for vertical
-Y is the type of the trajectory for crazyflie1 e.g h for horizental and v for vertical
-r0 and r1 are the respective radius of the trajectories.
+
+We have also, for convenience, prepared a script that does a predefined path following for two drones. Try this out by running
+```
+rosrun el2425_bitcraze multi_circle_flight_test.py
+```
+
+Within this script there are the following lines that can be changed to specify new circluar paths for the drones.
+```
+setTrajectory0([0.0, 1.5, 1.5], 0.5, 90.0)
+setTrajectory1([1.5, 1.5, 1.5], 0.5, 0.0)
+```
