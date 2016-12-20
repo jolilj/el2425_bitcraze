@@ -119,3 +119,13 @@ Within this script there are the following lines that can be changed to specify 
 setTrajectory0([0.0, 1.5, 1.5], 0.5, 90.0)
 setTrajectory1([1.5, 1.5, 1.5], 0.5, 0.0)
 ```
+## Data logging
+The list of published data can be recorded in the data log file for analysis by following commands. First make a temprorary dircetory and then run rosbag record with the option -a which will record all the published topics in a bag file.
+```
+mkdir ~/bagfiles
+cd ~/bagfiles
+rosbag record -a
+```
+Exit the window with a Ctrl-C. You would see a file named with year, date and time in directory ~/bagfiles which contains all topics published bu any node.
+
+After recording data run Matlab scrip "readrosbag.m" in Matlab with the required file name. You will observe plots for Crazflie x, y and z-positions with their respective means.
