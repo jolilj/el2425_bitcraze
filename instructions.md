@@ -105,8 +105,8 @@ Switch to tab where `fly_multiple` is running and press `Enter` to land.
 You can follow the steps in folling a circular path for a single drone but calling the service with the appropriate
 namespace. E.g.
 ```
-rosservice call /crazyflie/set_polygon_trajectory '[x0, y0, z0]' r0 theta0
-rosservice call /crazyflie/set_polygon_trajectory '[x1, y1, z1]' r0 theta1
+rosservice call /crazyflie0/set_polygon_trajectory '[x0, y0, z0]' r0 theta0
+rosservice call /crazyflie1/set_polygon_trajectory '[x1, y1, z1]' r0 theta1
 ```
 
 We have also, for convenience, prepared a script that does a predefined path following for two drones. Try this out by running
@@ -119,3 +119,13 @@ Within this script there are the following lines that can be changed to specify 
 setTrajectory0([0.0, 1.5, 1.5], 0.5, 90.0)
 setTrajectory1([1.5, 1.5, 1.5], 0.5, 0.0)
 ```
+## Data logging
+The list of published data can be recorded in the data log file for analysis by following commands. First make a temprorary dircetory and then run rosbag record with the option -a which will record all the published topics in a bag file.
+```
+mkdir ~/bagfiles
+cd ~/bagfiles
+rosbag record -a
+```
+Exit the window with a Ctrl-C. You would see a file named with year, date and time in directory ~/bagfiles which contains all topics published bu any node.
+
+After recording data run Matlab scrip "readrosbag.m" in Matlab with the required file name. You will observe plots for Crazflie x, y and z-positions with their respective means.
