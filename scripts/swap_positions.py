@@ -18,26 +18,14 @@ global Sub1
 #Avarage the measured position 100 times before disconnecting the subscription
 def callback0(data):
     global pos0
-    #global counter0
-    #if counter0==0:
     pos0=[data.pose.position.x, data.pose.position.y, data.pose.position.z]
-    #else:
-    #	pos0=[(pos0[0]+data.x)/2, (pos0[1]+data.y)/2, (pos0[2]+data.z)/2]
-    #counter0+=1
     print pos0
-    #if counter0>100:
     Sub0.unregister()
 
 def callback1(data):
     global pos1
-    #global counter1
-    #if counter1==0:
     pos1=[data.pose.position.x, data.pose.position.y, data.pose.position.z]
-    #else:
-    #	pos1=[(pos1[0]+data.x)/2, (pos1[1]+data.y)/2, (pos1[2]+data.z)/2]
-    #counter1+=1
     print pos1
-    #if counter1>100:
     Sub1.unregister()
 
 def shutdownhook():
@@ -68,10 +56,6 @@ def Caller():
 #Subscribes to the crazyflies positions by temporarly setting up a node
 if __name__=='__main__':
     rospy.init_node('position_swapper')
-    #global counter0
-    #global counter1
-    #counter0=0
-    #counter1=0
     rospy.on_shutdown(shutdownhook)
     positionURI0 = "/crazyflie0/goal" 
     positionURI1 = "/crazyflie1/goal"
