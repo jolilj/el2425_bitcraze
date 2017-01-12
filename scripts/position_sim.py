@@ -5,6 +5,10 @@ from el2425_bitcraze.srv import SetTargetPosition
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Point
 
+# ===== Simulate CF position ===
+# Simple simulation: Assumes CF is at the goal position
+# Publishes the goal points on the crazyflie_position topic #
+
 posPub = rospy.Publisher(rospy.get_namespace() + "crazyflie_position", Point, queue_size=10, latch=True)
 
 def callback(data):
