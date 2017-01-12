@@ -33,3 +33,5 @@ We haven't tried this though.
 
 ## Flying
 In order to hover you need to update the crazyflie firmware config. This is done by creating a config.mk file and place it inside `crazyflie-firmware/tools/make`. The file is now in this repo and consists only of two lines. The reason is to enable the kalman filter onboard the crazyflie. See [bitcraze wiki](https://wiki.bitcraze.io/doc:lps:index) for more information.
+
+**The instructions on how to fly one or multiple drones are to be found in the `instructions.md` file.**
