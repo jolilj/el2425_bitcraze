@@ -16,8 +16,7 @@ from std_msgs.msg import Float32MultiArray as Array
 # Has the following tweak parameters
 #   * deltaT - Time between published goal points (or reference points if you will) This has to be long enough so the PID
 #     manages to control the crazyflie to that point before publishing a new point
-#   * k - The distance to step in the direction of the target point from the current goal position,
-#         this has to be small enough so that we don't get the large acceleration change due to a large error in the PID controller
+#   * vel - The wanted velocity of the crazyflie
 
 # ==== TWEAK PARAMS ====
 deltaT = 0.2    # 0.2
