@@ -9,18 +9,23 @@ from el2425_bitcraze.srv import SetPolygonTrajectory
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Point
 
-rate = 5
-deltaTheta = 20
-
+#======== Trajectory Planner CLASS ===============
+# This class generates a circular(polygon) trajectory 
+rate = 5 # How often to publish on the target_position topic
+deltaTheta = 20 # The angle between the target points a long the circle
 class PolygonTrajectoryPlanner:
     def __init__(self):
-        self.rate = rospy.Rate(rate) # 3hz     
+        self.rate = rospy.Rate(rate)    
 
         self.goal = [0, 0, 0]
         
+        #Subscribe to goal      
         rospy.Subscriber('goal', PoseStamped, self.cfGoalCallback)
+        
+        #Use set_target_position service
         self.setTargetPosition = rospy.ServiceProxy('set_target_position', SetTargetPosition)
-
+        
+        #Define a new service for setting a trajectory
         rospy.Service('set_polygon_trajectory', SetPolygonTrajectory, self.polygonTrajectoryCallback)
 
         self.planTrajectory = False
@@ -37,7 +42,8 @@ class PolygonTrajectoryPlanner:
             self.planTrajectory = True
 
         return()
-
+    
+    # Main loop
     def run(self):
         self.theta = 0
         while not rospy.is_shutdown():
@@ -48,10 +54,8 @@ class PolygonTrajectoryPlanner:
                     x_new = self.center[0] + self.r*math.cos(theta_rad)
                     y_new = self.center[1] + self.r*math.sin(theta_rad)*math.cos(self.xrotation*math.pi/180)
                     z_new = self.center[2] - self.r*math.sin(theta_rad)*math.sin(self.xrotation*math.pi/180)
-
-                    # step/ increment of 5 degrees.
-                    # this step decides the shape of the cirlce
-                    # if we change it to 90 degrees the tarjectory will become square
+                    
+                    # Check if cf has reached the target and set new target if so
                     distToTarget = math.sqrt(math.pow(self.goal[0]-x_new,2) + math.pow(self.goal[1]-y_new,2) + math.pow(self.goal[2]-z_new,2)) 
                     if distToTarget <= 0.1:
                         self.theta = self.theta + deltaTheta       #10
@@ -66,7 +70,8 @@ class PolygonTrajectoryPlanner:
                 
                 self.setTargetPosition(x_new, y_new, z_new)
             self.rate.sleep()
-
+    
+    # Helper function to check if cf has reached the circle
     def isOnCircle(self):
         if self.onCircle:
             return True
