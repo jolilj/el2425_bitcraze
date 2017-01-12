@@ -3,7 +3,7 @@
 import rospy
 from el2425_bitcraze.srv import SetPolygonTrajectory 
 
-
+# ==== Convenience script for publishing two predefined circular trajectories === #
 if __name__ == "__main__":
     trajectory0URI = "/crazyflie0/set_polygon_trajectory"
     trajectory1URI = "/crazyflie1/set_polygon_trajectory"
