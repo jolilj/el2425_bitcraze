@@ -1,0 +1,3 @@
+[submodule "materials/RVO_Py_MAS"]
+	path = materials/RVO_Py_MAS
+	url = https://github.com/lnfc0218/RVO_Py_MAS
